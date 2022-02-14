@@ -18,7 +18,7 @@
 #include <SoftwareSerial.h>
 #include "crc16.h"
 
-SoftwareSerial portOne(10,11);
+SoftwareSerial portOne(10, 11);
 
 //================================================================================================//
 //                                            DEFINES                                             //
@@ -52,7 +52,7 @@ PacketReceiveProcessor receiveProc = PacketReceiveProcessor();
 uint8_t SerialPacketReceiveBuffer[2 * sizeof(PacketStruct)];
 static unsigned long _ms = millis();
 static unsigned long _ms2 = millis();
-//This large array holds all the information about the modules
+// This large array holds all the information about the modules
 CellModuleInfo cmi[maximum_controller_cell_modules];
 uint16_t sequence = 0;
 
@@ -75,11 +75,11 @@ void onPacketReceived()
 
     if ((ps.command & 0x0F) == COMMAND::Timing)
     {
-        //Timestamp at the earliest possible moment
+        // Timestamp at the earliest possible moment
         uint32_t t = millis();
         ps.moduledata[2] = (t & 0xFFFF0000) >> 16;
         ps.moduledata[3] = t & 0x0000FFFF;
-        //Ensure CRC is correct
+        // Ensure CRC is correct
         ps.crc = CRC16::CalculateArray((uint8_t *)&ps, sizeof(PacketStruct) - 2);
     }
 
@@ -100,7 +100,7 @@ void onPacketReceived()
 //--------------------------------------------------------------------------------------------------
 void BMS_TaskInit(void)
 {
-    //Receive is IO2 which means the RX1 plug must be disconnected for programming to work!
+    // Receive is IO2 which means the RX1 plug must be disconnected for programming to work!
     SERIAL_DATA.begin(9600); // Serial for comms to modules
 
     myPacketSerial.begin(&SERIAL_DATA, &onPacketReceived, sizeof(PacketStruct), SerialPacketReceiveBuffer, sizeof(SerialPacketReceiveBuffer));
@@ -110,17 +110,19 @@ void BMS_TaskInit(void)
 
 void BMS_TaskRun(void)
 {
-    if ((millis() - _ms) > 3000)
+    if ((millis() - _ms) >= 3000)
     {
+        _ms = millis();
+
         uint16_t i = 0;
-        uint16_t max = 3;
+        uint16_t max = 1;
         uint8_t startmodule = 0;
 
         while (i < max)
         {
             uint16_t endmodule = (startmodule + maximum_cell_modules_per_packet) - 1;
 
-            //Limit to number of modules we have configured
+            // Limit to number of modules we have configured
             if (endmodule > max)
             {
                 endmodule = max - 1;
@@ -129,27 +131,26 @@ void BMS_TaskRun(void)
             prg.sendCellVoltageRequest(startmodule, endmodule);
             prg.sendCellTemperatureRequest(startmodule, endmodule);
 
-            //If any module is in bypass then request PWM reading for whole bank
+            // If any module is in bypass then request PWM reading for whole bank
             for (uint8_t m = startmodule; m <= endmodule; m++)
             {
                 if (cmi[m].inBypass)
                 {
                     prg.sendReadBalancePowerRequest(startmodule, endmodule);
-                    //We only need 1 reading for whole bank
+                    // We only need 1 reading for whole bank
                     break;
                 }
             }
 
-            //Move to the next bank
+            // Move to the next bank
             startmodule = endmodule + 1;
             i += maximum_cell_modules_per_packet;
         }
-
-        _ms = millis();
     }
 
-    if ((millis() - _ms2) > 1000)
+    if ((millis() - _ms2) >= 1000)
     {
+        _ms2 = millis();
         GPIO_BUILTIN_LED_ON();
         if (requestQueue.isEmpty() == false)
         {
@@ -161,7 +162,7 @@ void BMS_TaskRun(void)
 
             if (transmitBuffer.command == COMMAND::Timing)
             {
-                //Timestamp at the last possible moment
+                // Timestamp at the last possible moment
                 uint32_t t = millis();
                 transmitBuffer.moduledata[0] = (t & 0xFFFF0000) >> 16;
                 transmitBuffer.moduledata[1] = t & 0x0000FFFF;
@@ -171,15 +172,38 @@ void BMS_TaskRun(void)
             myPacketSerial.sendBuffer((byte *)&transmitBuffer);
         }
         GPIO_BUILTIN_LED_OFF();
-        _ms2 = millis();
     }
 
     if (replyQueue.isEmpty() == false)
     {
         PacketStruct ps;
         replyQueue.pop(&ps);
-        if (!receiveProc.ProcessReply(&ps))
+        if (receiveProc.ProcessReply(&ps))
         {
+            CellModuleInfo *mod = &cmi[0];
+
+         /*   Serial.println("badPacketCount : " + String(mod->badPacketCount));
+            Serial.println("BalanceCurrentCount : " + String(mod->BalanceCurrentCount));
+            Serial.println("BoardVersionNumber : " + String(mod->BoardVersionNumber));
+            Serial.println("bypassOverTemp : " + String(mod->bypassOverTemp));
+            Serial.println("BypassOverTempShutdown : " + String(mod->BypassOverTempShutdown));
+            Serial.println("BypassThresholdmV : " + String(mod->BypassThresholdmV));
+            Serial.println("CodeVersionNumber : " + String(mod->CodeVersionNumber));
+            Serial.println("External_BCoefficient : " + String(mod->External_BCoefficient));
+            Serial.println("externalTemp : " + String(mod->externalTemp));
+            Serial.println("inBypass : " + String(mod->inBypass));
+            Serial.println("Internal_BCoefficient : " + String(mod->Internal_BCoefficient));
+            Serial.println("internalTemp : " + String(mod->internalTemp));
+            Serial.println("LoadResistance : " + String(mod->LoadResistance));
+            Serial.println("mVPerADC : " + String(mod->mVPerADC));
+            Serial.println("PacketReceivedCount : " + String(mod->PacketReceivedCount));
+            Serial.println("PWMValue : " + String(mod->PWMValue));
+            Serial.println("settingsCached : " + String(mod->settingsCached));
+            Serial.println("valid : " + String(mod->valid));*/
+            Serial.println("voltagemV : " + String(mod->voltagemV));
+            Serial.println("voltagemVMax : " + String(mod->voltagemVMax));
+            Serial.println("voltagemVMin : " + String(mod->voltagemVMin));
+            Serial.println("");
         }
     }
 
@@ -192,10 +216,12 @@ CellModuleInfo *BMS_GetCMI(uint16_t idx)
     return &cmi[idx];
 }
 
-PacketRequestGenerator * BMS_GetPrg(void){
+PacketRequestGenerator *BMS_GetPrg(void)
+{
     return &prg;
 }
 
-PacketReceiveProcessor * BMS_GetReceiveProc(void){
+PacketReceiveProcessor *BMS_GetReceiveProc(void)
+{
     return &receiveProc;
 }
