@@ -1,0 +1,13 @@
+(footprint "diode_symbol" (version 20211014) (generator pcbnew)
+  (layer "F.Cu")
+  (tedit 620A71FB)
+  (attr through_hole)
+  (fp_text reference "G***" (at 0 0) (layer "F.SilkS") hide
+    (effects (font (size 1.524 1.524) (thickness 0.3)))
+    (tstamp a589b06d-7ab4-4e1d-96a8-4ad8dcc7f89b)
+  )
+  (fp_text value "LOGO" (at 0.75 0) (layer "F.SilkS") hide
+    (effects (font (size 1.524 1.524) (thickness 0.3)))
+    (tstamp 8dfbecbd-3da1-4c88-856b-7786beab9dd3)
+  )
+)
