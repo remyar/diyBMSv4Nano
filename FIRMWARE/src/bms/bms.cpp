@@ -56,6 +56,9 @@ static unsigned long _ms2 = millis();
 CellModuleInfo cmi[maximum_controller_cell_modules];
 uint16_t sequence = 0;
 
+static e_STATE_BMS bmsState = BMS_START;
+static uint8_t NbCellules = 0;
+
 //------------------------------------------------------------------------------------------------//
 //---                                        Partagees                                         ---//
 //------------------------------------------------------------------------------------------------//
@@ -104,22 +107,60 @@ void BMS_TaskInit(void)
     SERIAL_DATA.begin(9600); // Serial for comms to modules
 
     myPacketSerial.begin(&SERIAL_DATA, &onPacketReceived, sizeof(PacketStruct), SerialPacketReceiveBuffer, sizeof(SerialPacketReceiveBuffer));
-    _ms = millis() - 5000;
-    _ms2 = millis() - 5000;
+    _ms = millis();
+    _ms2 = millis();
+
+    bmsState = BMS_START;
+    NbCellules = 0;
 }
+
+
 
 void BMS_TaskRun(void)
 {
-    if ((millis() - _ms) >= 3000)
+    switch (bmsState)
     {
-        _ms = millis();
-
-        uint16_t i = 0;
-        uint16_t max = 1;
-        uint8_t startmodule = 0;
-
-        while (i < max)
+    case (BMS_START):
+    {
+        if ((millis() - _ms) >= 1000)
         {
+            _ms = millis();
+            prg.sendGetSettingsRequest(NbCellules);
+            NbCellules++;
+            if (NbCellules >= maximum_cell_modules_per_packet)
+            {
+                bmsState = BMS_GET_NB_CELLS;
+                _ms = millis();
+            }
+        }
+        break;
+    }
+    case (BMS_GET_NB_CELLS):
+    {
+        if ((millis() - _ms) >= 3000)
+        {
+            NbCellules = 0;
+            _ms = millis() - 5000;
+            for (int j = 0; j < maximum_cell_modules_per_packet; j++)
+            {
+                CellModuleInfo *mod = &cmi[j];
+                if (mod->BoardVersionNumber >= 440)
+                {
+                    NbCellules++;
+                }
+            }
+            bmsState = BMS_RUN;
+            Serial.println("NbCellules : " + String(NbCellules));
+        }
+        break;
+    }
+    case (BMS_RUN):
+    {
+        if ((millis() - _ms) >= 3000)
+        {
+            _ms = millis();
+            uint16_t max = NbCellules;
+            uint8_t startmodule = 0;
             uint16_t endmodule = (startmodule + maximum_cell_modules_per_packet) - 1;
 
             // Limit to number of modules we have configured
@@ -141,11 +182,9 @@ void BMS_TaskRun(void)
                     break;
                 }
             }
-
-            // Move to the next bank
-            startmodule = endmodule + 1;
-            i += maximum_cell_modules_per_packet;
         }
+        break;
+    }
     }
 
     if ((millis() - _ms2) >= 1000)
@@ -180,35 +219,45 @@ void BMS_TaskRun(void)
         replyQueue.pop(&ps);
         if (receiveProc.ProcessReply(&ps))
         {
-            CellModuleInfo *mod = &cmi[0];
+/*
+            for (int j = 0; j < 2; j++)
+            {
+                CellModuleInfo *mod = &cmi[j];
 
-         /*   Serial.println("badPacketCount : " + String(mod->badPacketCount));
-            Serial.println("BalanceCurrentCount : " + String(mod->BalanceCurrentCount));
-            Serial.println("BoardVersionNumber : " + String(mod->BoardVersionNumber));
-            Serial.println("bypassOverTemp : " + String(mod->bypassOverTemp));
-            Serial.println("BypassOverTempShutdown : " + String(mod->BypassOverTempShutdown));
-            Serial.println("BypassThresholdmV : " + String(mod->BypassThresholdmV));
-            Serial.println("CodeVersionNumber : " + String(mod->CodeVersionNumber));
-            Serial.println("External_BCoefficient : " + String(mod->External_BCoefficient));
-            Serial.println("externalTemp : " + String(mod->externalTemp));
-            Serial.println("inBypass : " + String(mod->inBypass));
-            Serial.println("Internal_BCoefficient : " + String(mod->Internal_BCoefficient));
-            Serial.println("internalTemp : " + String(mod->internalTemp));
-            Serial.println("LoadResistance : " + String(mod->LoadResistance));
-            Serial.println("mVPerADC : " + String(mod->mVPerADC));
-            Serial.println("PacketReceivedCount : " + String(mod->PacketReceivedCount));
-            Serial.println("PWMValue : " + String(mod->PWMValue));
-            Serial.println("settingsCached : " + String(mod->settingsCached));
-            Serial.println("valid : " + String(mod->valid));*/
-            Serial.println("voltagemV : " + String(mod->voltagemV));
-            Serial.println("voltagemVMax : " + String(mod->voltagemVMax));
-            Serial.println("voltagemVMin : " + String(mod->voltagemVMin));
-            Serial.println("");
+                Serial.println("Module " + String(j) + " ****************");
+                   Serial.println("badPacketCount : " + String(mod->badPacketCount));
+                    Serial.println("BalanceCurrentCount : " + String(mod->BalanceCurrentCount));
+                Serial.println("BoardVersionNumber : " + String(mod->BoardVersionNumber));
+                  Serial.println("bypassOverTemp : " + String(mod->bypassOverTemp));
+                  Serial.println("BypassOverTempShutdown : " + String(mod->BypassOverTempShutdown));
+                  Serial.println("BypassThresholdmV : " + String(mod->BypassThresholdmV));
+                  Serial.println("CodeVersionNumber : " + String(mod->CodeVersionNumber));
+                  Serial.println("External_BCoefficient : " + String(mod->External_BCoefficient));
+                  Serial.println("externalTemp : " + String(mod->externalTemp));
+                  Serial.println("inBypass : " + String(mod->inBypass));
+                  Serial.println("Internal_BCoefficient : " + String(mod->Internal_BCoefficient));
+                  Serial.println("internalTemp : " + String(mod->internalTemp));
+                  Serial.println("LoadResistance : " + String(mod->LoadResistance));
+                  Serial.println("mVPerADC : " + String(mod->mVPerADC));
+                  Serial.println("PacketReceivedCount : " + String(mod->PacketReceivedCount));
+                  Serial.println("PWMValue : " + String(mod->PWMValue));
+                  Serial.println("settingsCached : " + String(mod->settingsCached));
+                  Serial.println("valid : " + String(mod->valid));
+                  Serial.println("voltagemV : " + String(mod->voltagemV));
+                 Serial.println("voltagemVMax : " + String(mod->voltagemVMax));
+                 Serial.println("voltagemVMin : " + String(mod->voltagemVMin));
+                Serial.println("");
+            }
+            */
         }
     }
 
     // Call update to receive, decode and process incoming packets
     myPacketSerial.checkInputStream();
+}
+
+uint8_t BMS_GetNbCells(void){
+    return NbCellules;
 }
 
 CellModuleInfo *BMS_GetCMI(uint16_t idx)

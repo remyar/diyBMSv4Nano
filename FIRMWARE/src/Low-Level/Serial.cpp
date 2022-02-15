@@ -58,7 +58,8 @@
 void SERIAL_Init(void)
 {
     Serial.begin(115200);
-    Serial.println();
+    Serial.println("");
+
 }
 
 uint16_t SERIAL_Available(void){

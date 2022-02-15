@@ -26,7 +26,11 @@
 //================================================================================================//
 //                                          ENUMERATIONS                                          //
 //================================================================================================//
-
+typedef enum {
+    BMS_START = 0,
+    BMS_GET_NB_CELLS,
+    BMS_RUN,
+}e_STATE_BMS;
 //================================================================================================//
 //                                      STRUCTURES ET UNIONS                                      //
 //================================================================================================//
@@ -45,7 +49,9 @@
 void BMS_TaskInit(void);
 void BMS_TaskRun(void);
 
+uint8_t BMS_GetNbCells(void);
 CellModuleInfo* BMS_GetCMI(uint16_t idx);
 PacketRequestGenerator * BMS_GetPrg(void);
 PacketReceiveProcessor * BMS_GetReceiveProc(void);
+
 #endif //--- _BOARD_
