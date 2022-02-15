@@ -21,7 +21,7 @@ public:
     uint8_t totalModulesFound = 0;
 
     //Duration (ms) for a packet to travel through the string (default to 60 seconds at startup)
-    uint32_t packetTimerMillisecond = 60 * 1000;
+    uint32_t packetTimerMillisecond = (uint32_t)((uint32_t)60 * (uint32_t)1000);
     uint32_t packetLastReceivedMillisecond = 0;
     uint16_t packetLastReceivedSequence = 0;
 
