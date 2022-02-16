@@ -18,7 +18,7 @@
 #include <SoftwareSerial.h>
 #include "crc16.h"
 
-SoftwareSerial portOne(10, 11);
+SoftwareSerial portOne(12, 11);
 
 //================================================================================================//
 //                                            DEFINES                                             //
@@ -150,7 +150,6 @@ void BMS_TaskRun(void)
                 }
             }
             bmsState = BMS_RUN;
-            Serial.println("NbCellules : " + String(NbCellules));
         }
         break;
     }
@@ -219,13 +218,13 @@ void BMS_TaskRun(void)
         replyQueue.pop(&ps);
         if (receiveProc.ProcessReply(&ps))
         {
-/*
+ /* 
             for (int j = 0; j < 2; j++)
             {
                 CellModuleInfo *mod = &cmi[j];
 
                 Serial.println("Module " + String(j) + " ****************");
-                   Serial.println("badPacketCount : " + String(mod->badPacketCount));
+                 Serial.println("badPacketCount : " + String(mod->badPacketCount));
                     Serial.println("BalanceCurrentCount : " + String(mod->BalanceCurrentCount));
                 Serial.println("BoardVersionNumber : " + String(mod->BoardVersionNumber));
                   Serial.println("bypassOverTemp : " + String(mod->bypassOverTemp));
@@ -243,12 +242,12 @@ void BMS_TaskRun(void)
                   Serial.println("PWMValue : " + String(mod->PWMValue));
                   Serial.println("settingsCached : " + String(mod->settingsCached));
                   Serial.println("valid : " + String(mod->valid));
-                  Serial.println("voltagemV : " + String(mod->voltagemV));
-                 Serial.println("voltagemVMax : " + String(mod->voltagemVMax));
+                    Serial.println("voltagemV : " + String(mod->voltagemV));
+               Serial.println("voltagemVMax : " + String(mod->voltagemVMax));
                  Serial.println("voltagemVMin : " + String(mod->voltagemVMin));
                 Serial.println("");
-            }
-            */
+            }*/
+            
         }
     }
 

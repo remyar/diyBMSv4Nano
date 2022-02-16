@@ -8,16 +8,13 @@
 //                                                                                                //
 //================================================================================================//
 
-#ifndef _BMS_H_
-#define _BMS_H_
+#ifndef _RTU_H_
+#define _RTU_H_
 
 //================================================================================================//
 //                                        FICHIERS INCLUS                                         //
 //================================================================================================//
 #include "../typedefs.h"
-#include "../Low-Level/board.h"
-#include "./PacketRequestGenerator.h"
-#include "./PacketReceiveProcessor.h"
 
 //================================================================================================//
 //                                            DEFINES                                             //
@@ -26,13 +23,7 @@
 //================================================================================================//
 //                                          ENUMERATIONS                                          //
 //================================================================================================//
-typedef enum {
-    BMS_START = 0,
-    BMS_GET_NB_CELLS,
-    BMS_RUN,
-}e_STATE_BMS;
 
-extern CellModuleInfo cmi[maximum_controller_cell_modules];
 //================================================================================================//
 //                                      STRUCTURES ET UNIONS                                      //
 //================================================================================================//
@@ -48,12 +39,8 @@ extern CellModuleInfo cmi[maximum_controller_cell_modules];
 //------------------------------------------------------------------------------------------------//
 //---                                        Fonctions                                         ---//
 //------------------------------------------------------------------------------------------------//
-void BMS_TaskInit(void);
-void BMS_TaskRun(void);
+void RTU_TaskInit(void);
+void RTU_TaskRun(void);
 
-uint8_t BMS_GetNbCells(void);
-CellModuleInfo* BMS_GetCMI(uint16_t idx);
-PacketRequestGenerator * BMS_GetPrg(void);
-PacketReceiveProcessor * BMS_GetReceiveProc(void);
 
 #endif //--- _BOARD_

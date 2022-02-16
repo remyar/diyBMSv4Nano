@@ -57,7 +57,6 @@ void Modbus::begin(unsigned long boud) {
 
     // set the timeout for 3.5 chars.
     serial.setTimeout(0);
-
     // set the T35 interframe timeout
     if (boud > 19200) {
         timeout = 1750;
@@ -323,6 +322,7 @@ int Modbus::poll() {
         // to complete and then set rs485 control pin to read
         // [ on SoftwareSerial use delay ? ]
         serial.flush();
+        delay(5);
         digitalWrite(ctrlPin, LOW);
     } else {
         // just send the buffer.
