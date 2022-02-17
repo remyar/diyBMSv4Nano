@@ -1,23 +1,21 @@
 //================================================================================================//
 //                                                                                                //
 // PROJET       : DBM620                                                                          //
-// MODULE       : Board                                                                           //
+// MODULE       : WiFi                                                                           //
 // DESCRIPTION  :                                                                                 //
 // CREATION     : 18/12/2017                                                                      //
 // HISTORIQUE   :                                                                                 //
 //                                                                                                //
 //================================================================================================//
 
-#ifndef _BMS_H_
-#define _BMS_H_
+#ifndef _SETTINGS_H_
+#define _SETTINGS_H_
 
 //================================================================================================//
 //                                        FICHIERS INCLUS                                         //
 //================================================================================================//
-#include "../typedefs.h"
-#include "../Low-Level/board.h"
-#include "./PacketRequestGenerator.h"
-#include "./PacketReceiveProcessor.h"
+
+#include <EEPROM.h>
 
 //================================================================================================//
 //                                            DEFINES                                             //
@@ -26,16 +24,7 @@
 //================================================================================================//
 //                                          ENUMERATIONS                                          //
 //================================================================================================//
-typedef enum {
-    READ_VOLTAGE_AND_STATUS = 0,
-    SEND_TIMING_REQUEST,
-    SEND_SETTINGS_REQUEST,
-    SEND_BALANCE_CURRENT_COUNT_REQUEST,
-    SEND_PACKET_RECEIVED_REQUEST,
-    SEND_BAD_PACKET_COUNTER
-}e_STATE_BMS;
 
-extern CellModuleInfo cmi[maximum_controller_cell_modules];
 //================================================================================================//
 //                                      STRUCTURES ET UNIONS                                      //
 //================================================================================================//
@@ -51,12 +40,8 @@ extern CellModuleInfo cmi[maximum_controller_cell_modules];
 //------------------------------------------------------------------------------------------------//
 //---                                        Fonctions                                         ---//
 //------------------------------------------------------------------------------------------------//
-void BMS_TaskInit(void);
-void BMS_TaskRun(void);
-
-uint8_t BMS_GetNbCells(void);
-CellModuleInfo* BMS_GetCMI(uint16_t idx);
-PacketRequestGenerator * BMS_GetPrg(void);
-PacketReceiveProcessor * BMS_GetReceiveProc(void);
+void SETTINGS_Load(void);
+void SETTINGS_SetTotalNumberOfBanks(uint8_t val);
+void SETTINGS_SetTotalNumberOfSeriesModules(uint8_t val);
 
 #endif //--- _BOARD_

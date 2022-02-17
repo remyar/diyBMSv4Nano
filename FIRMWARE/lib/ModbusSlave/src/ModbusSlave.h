@@ -16,7 +16,7 @@
 
 #include <Arduino.h>
 
-#define MAX_BUFFER 64
+#define MAX_BUFFER 32
 
 /**
  * Modbus function codes

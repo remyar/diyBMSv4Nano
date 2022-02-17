@@ -31,11 +31,11 @@ bool PacketReceiveProcessor::ProcessReply(PacketStruct *receivebuffer)
         //Careful of overflowing the uint16_t in sequence
         if (packetLastReceivedSequence > 0 && _packetbuffer.sequence > 0 && _packetbuffer.sequence != packetLastReceivedSequence + 1)
         {
-            Serial.println();
+           /* Serial.println();
             Serial.print(F("OOS Error, expected="));
             Serial.print(packetLastReceivedSequence + 1, HEX);
             Serial.print(", got=");
-            Serial.println(_packetbuffer.sequence, HEX);
+            Serial.println(_packetbuffer.sequence, HEX);*/
             totalOutofSequenceErrors++;
         }
 

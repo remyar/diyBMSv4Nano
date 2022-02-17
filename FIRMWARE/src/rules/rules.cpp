@@ -12,14 +12,7 @@
 //                                        FICHIERS INCLUS                                         //
 //================================================================================================//
 #include "../Low-Level/board.h"
-//#include <AltSoftSerial.h>
-#include "./rtu.h"
-#include "../bms/bms.h"
-#include "../rules/rules.h"
-#include <ModbusSlave.h>
-
-// AltSoftSerial porttwo;
-Modbus slave(Serial, 1, 4);
+#include "./rules.h"
 
 //================================================================================================//
 //                                            DEFINES                                             //
@@ -28,28 +21,6 @@ Modbus slave(Serial, 1, 4);
 //================================================================================================//
 //                                          ENUMERATIONS                                          //
 //================================================================================================//
-// command byte
-// WRRR CCCC
-// W    = 1 bit indicator packet was processed (controller send (0) module processed (1))
-// R    = 3 bits reserved not used
-// C    = 4 bits command (16 possible commands)
-
-// commands
-//  1000 0000  = set bank identity
-//  0000 0001  = read voltage and status
-//  0000 0010  = identify module (flash leds)
-//  0000 0011  = Read temperature
-//  0000 0100  = Report number of bad packets
-//  0000 0101  = Report settings/configuration
-
-enum
-{
-    CONTOLLER_READ_VOLTAGE_AND_STATUS = 0x01,
-    CONTROLLER_IDENTIFY = 0x02,
-    CONTROLLER_READ_TEMPERATURE = 0x03,
-    CONTROLLER_REPORT_NUMBER_OF_BAD_PACKET = 0x04,
-    CONTROLLER_REPORT_CONFIGURATION = 0x05
-} ;
 
 //================================================================================================//
 //                                      STRUCTURES ET UNIONS                                      //
@@ -58,7 +29,11 @@ enum
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                 VARIABLES PRIVEES ET PARTAGEES                                 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
+static unsigned long _ms = millis();
+s_CONTROLER sCtrl;
+static int8_t numberOfBalancingModules;
+// True if at least 1 module has an external temp sensor fitted
+static bool moduleHasExternalTempSensor;
 //------------------------------------------------------------------------------------------------//
 //---                                         Privees                                          ---//
 //------------------------------------------------------------------------------------------------//
@@ -74,81 +49,85 @@ enum
 //------------------------------------------------------------------------------------------------//
 //---                                         Privees                                          ---//
 //------------------------------------------------------------------------------------------------//
-// Handel Read Input Registers (FC=04)
-uint8_t CbReadRegisters(uint8_t fc, uint16_t address, uint16_t length)
+void _ClearValues(void)
 {
-    uint8_t result = STATUS_OK;
-
-    switch (fc)
+    for (uint8_t r = 0; r < maximum_number_of_banks; r++)
     {
-    case FC_READ_HOLDING_REGISTERS:
-    {
-        switch (address)
-        {
-        case (CONTOLLER_READ_VOLTAGE_AND_STATUS):
-        {
-            s_CONTROLER * sctrl = RULES_GetControllerPtr();
-            slave.writeRegisterToBuffer(0,sctrl->isStarted);
-            for ( uint8_t i = 0 ; i < ((length-1)/2) ; i++){
-
-                UINT32UNION_t val;
-                val.number = sctrl->packvoltage[i];
-                slave.writeRegisterToBuffer((i*2) + 1, val.word[0]);
-                slave.writeRegisterToBuffer(((i*2)+1) + 1, val.word[1]);
-            }
-            break;
-        }
-        case (CONTROLLER_IDENTIFY):
-        {
-            break;
-        }
-        case (CONTROLLER_READ_TEMPERATURE):
-        {
-            break;
-        }
-        case (CONTROLLER_REPORT_NUMBER_OF_BAD_PACKET):
-        {
-            break;
-        }
-        case (CONTROLLER_REPORT_CONFIGURATION):
-        {
-            break;
-        }
-            /*   case 0:
-               {
-                   //-- ping request
-                   slave.writeRegisterToBuffer(0, 1);
-                   break;
-               }*/
-        default:
-        {
-            result = STATUS_ILLEGAL_DATA_ADDRESS;
-            break;
-        }
-        }
-        break;
+        sCtrl.packvoltage[r] = 0;
+        sCtrl.lowestvoltageinpack[r] = 0xFFFF;
+        sCtrl.highestvoltageinpack[r] = 0;
     }
-    case FC_READ_INPUT_REGISTERS:
-    {
-        {
-            result = STATUS_ILLEGAL_DATA_ADDRESS;
-            break;
-        }
-        break;
-    }
-    default:
-    {
-        result = STATUS_ILLEGAL_FUNCTION;
-        break;
-    }
-    }
-    return result;
 }
 
-uint8_t CbWriteRegisters(uint8_t fc, uint16_t address, uint16_t length)
+void _ProcessCell(uint8_t bank, uint8_t cellNumber, CellModuleInfo *c)
 {
-    uint8_t result = STATUS_OK;
-    return result;
+    if (c->valid == false)
+    {
+        return;
+    }
+
+    sCtrl.packvoltage[bank] += c->voltagemV;
+    // If the voltage of the module is zero, we probably haven't requested it yet (which happens during power up)
+    // so keep count so we don't accidentally trigger rules.
+    if (c->voltagemV > sCtrl.highestvoltageinpack[bank])
+    {
+        sCtrl.highestvoltageinpack[bank] = c->voltagemV;
+    }
+    if (c->voltagemV < sCtrl.lowestvoltageinpack[bank])
+    {
+        sCtrl.lowestvoltageinpack[bank] = c->voltagemV;
+    }
+
+    if (c->voltagemV > sCtrl.highestCellVoltage)
+    {
+        sCtrl.highestCellVoltage = c->voltagemV;
+        sCtrl.address_HighestCellVoltage = cellNumber;
+    }
+
+    if (c->voltagemV < sCtrl.lowestCellVoltage)
+    {
+        sCtrl.lowestCellVoltage = c->voltagemV;
+        sCtrl.address_LowestCellVoltage = cellNumber;
+    }
+
+    if (c->externalTemp != -40)
+    {
+        moduleHasExternalTempSensor = true;
+
+        if (c->externalTemp > sCtrl.highestExternalTemp)
+        {
+            sCtrl.highestExternalTemp = c->externalTemp;
+            sCtrl.address_highestExternalTemp = cellNumber;
+        }
+
+        if (c->externalTemp < sCtrl.lowestExternalTemp)
+        {
+            sCtrl.lowestExternalTemp = c->externalTemp;
+            sCtrl.address_lowestExternalTemp = cellNumber;
+        }
+    }
+
+    if (c->internalTemp > sCtrl.highestInternalTemp)
+    {
+        sCtrl.highestInternalTemp = c->internalTemp;
+    }
+
+    if (c->externalTemp < sCtrl.lowestInternalTemp)
+    {
+        sCtrl.lowestInternalTemp = c->internalTemp;
+    }
+}
+
+void _ProcessBank(uint8_t bank){
+    //Combine the voltages - work out the highest and lowest pack voltages
+    if (sCtrl.packvoltage[bank] > sCtrl.highestPackVoltage)
+    {
+        sCtrl.highestPackVoltage = sCtrl.packvoltage[bank];
+    }
+    if (sCtrl.packvoltage[bank] < sCtrl.lowestPackVoltage)
+    {
+        sCtrl.lowestPackVoltage = sCtrl.packvoltage[bank];
+    }
 }
 //------------------------------------------------------------------------------------------------//
 //---                                        Partagees                                         ---//
@@ -159,19 +138,41 @@ uint8_t CbWriteRegisters(uint8_t fc, uint16_t address, uint16_t length)
 //
 // DESCRIPTION : Initialisation de la carte : GPIO, Clocks, Interruptions...
 //--------------------------------------------------------------------------------------------------
-void RTU_TaskInit(void)
+void RULES_TaskInit(void)
 {
-    slave.cbVector[CB_READ_REGISTERS] = CbReadRegisters;
-    slave.cbVector[CB_WRITE_MULTIPLE_REGISTERS] = CbWriteRegisters;
-
-    Serial.begin(9600);
-    slave.begin(9600);
-
-    pinMode(4, OUTPUT);
-    digitalWrite(4, LOW);
+    _ClearValues();
+    sCtrl.isStarted = false;
+    _ms = millis();
 }
 
-void RTU_TaskRun(void)
+void RULES_TaskRun(void)
 {
-    slave.poll();
+    if ((millis() - _ms) >= 1000)
+    {
+        _ms = millis();
+        _ClearValues();
+        uint8_t cellid = 0;
+        for (int8_t bank = 0; bank < maximum_number_of_banks; bank++)
+        {
+            for (int8_t i = 0; i < maximum_cell_modules_per_packet; i++)
+            {
+                _ProcessCell(bank, cellid, &cmi[cellid]);
+                if (cmi[cellid].valid && cmi[cellid].settingsCached)
+                {
+
+                    if (cmi[cellid].inBypass)
+                    {
+                        numberOfBalancingModules++;
+                    }
+                }
+                cellid++;
+            }
+
+            _ProcessBank(bank);
+        }
+    }
+}
+
+s_CONTROLER * RULES_GetControllerPtr(void){
+    return &sCtrl;
 }

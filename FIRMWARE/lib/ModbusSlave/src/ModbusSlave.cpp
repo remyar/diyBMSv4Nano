@@ -322,7 +322,6 @@ int Modbus::poll() {
         // to complete and then set rs485 control pin to read
         // [ on SoftwareSerial use delay ? ]
         serial.flush();
-        delay(5);
         digitalWrite(ctrlPin, LOW);
     } else {
         // just send the buffer.

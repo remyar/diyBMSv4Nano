@@ -11,15 +11,18 @@
 #ifndef DIYBMS_DEFINES_H_
 #define DIYBMS_DEFINES_H_
 
-//Total number of cells a single controler can handle (memory limitation)
+// Total number of cells a single controler can handle (memory limitation)
 #define maximum_controller_cell_modules 16
 
-//Maximum of 16 cell modules (don't change this!) number of cells to process in a single packet of data
+// Maximum of 16 cell modules (don't change this!) number of cells to process in a single packet of data
 #define maximum_cell_modules_per_packet 16
 
-//Maximum number of banks allowed
-//This also needs changing in default.htm (MAXIMUM_NUMBER_OF_BANKS)
-#define maximum_number_of_banks 1
+// Maximum number of banks allowed
+// This also needs changing in default.htm (MAXIMUM_NUMBER_OF_BANKS)
+#define maximum_number_of_banks 4
+
+// Number of relays on board (4)
+#define RELAY_TOTAL 4
 
 typedef union
 {
@@ -27,6 +30,13 @@ typedef union
     uint8_t bytes[4];
     uint16_t word[2];
 } FLOATUNION_t;
+
+typedef union
+{
+    uint8_t bytes[4];
+    uint16_t word[2];
+    uint32_t number;
+} UINT32UNION_t;
 
 // Only the lowest 4 bits can be used!
 enum COMMAND : uint8_t
@@ -45,7 +55,7 @@ enum COMMAND : uint8_t
     ResetBalanceCurrentCounter = 11
 };
 
-//NOTE THIS MUST BE EVEN IN SIZE (BYTES) ESP8266 IS 32 BIT AND WILL ALIGN AS SUCH!
+// NOTE THIS MUST BE EVEN IN SIZE (BYTES) ESP8266 IS 32 BIT AND WILL ALIGN AS SUCH!
 struct PacketStruct
 {
     uint8_t start_address;
@@ -59,19 +69,19 @@ struct PacketStruct
 
 struct CellModuleInfo
 {
-    //Used as part of the enquiry functions
+    // Used as part of the enquiry functions
     bool settingsCached : 1;
-    //Set to true once the module has replied with data
+    // Set to true once the module has replied with data
     bool valid : 1;
-    //Bypass is active
+    // Bypass is active
     bool inBypass : 1;
-    //Bypass active and temperature over set point
+    // Bypass active and temperature over set point
     bool bypassOverTemp : 1;
 
     uint16_t voltagemV;
     uint16_t voltagemVMin;
     uint16_t voltagemVMax;
-    //Signed integer byte (negative temperatures)
+    // Signed integer byte (negative temperatures)
     int8_t internalTemp;
     int8_t externalTemp;
 
@@ -81,19 +91,19 @@ struct CellModuleInfo
 
     // Resistance of bypass load
     float LoadResistance;
-    //Voltage Calibration
+    // Voltage Calibration
     float Calibration;
-    //Reference voltage (millivolt) normally 2.00mV
+    // Reference voltage (millivolt) normally 2.00mV
     float mVPerADC;
-    //Internal Thermistor settings
+    // Internal Thermistor settings
     uint16_t Internal_BCoefficient;
-    //External Thermistor settings
+    // External Thermistor settings
     uint16_t External_BCoefficient;
-    //Version number returned by code of module
+    // Version number returned by code of module
     uint16_t BoardVersionNumber;
-    //Last 4 bytes of GITHUB version
+    // Last 4 bytes of GITHUB version
     uint32_t CodeVersionNumber;
-    //Value of PWM timer for load shedding
+    // Value of PWM timer for load shedding
     uint16_t PWMValue;
 
     uint16_t BalanceCurrentCount;
@@ -111,8 +121,77 @@ enum ControllerState : uint8_t
     Running = 255,
 };
 
-
-//This holds all the cell information in a large array array
+// This holds all the cell information in a large array array
 extern CellModuleInfo cmi[maximum_controller_cell_modules];
+
+typedef struct
+{
+    bool isStarted;
+    uint32_t packvoltage[maximum_number_of_banks];
+    uint16_t lowestvoltageinpack[maximum_number_of_banks];
+    uint16_t highestvoltageinpack[maximum_number_of_banks];
+
+    uint32_t highestPackVoltage;
+    uint32_t lowestPackVoltage;
+    uint16_t highestCellVoltage;
+    uint16_t lowestCellVoltage;
+
+    // Identify address (id) of which module reports the highest/lowest values
+    uint8_t address_HighestCellVoltage;
+    uint8_t address_LowestCellVoltage;
+    uint8_t address_highestExternalTemp;
+    uint8_t address_lowestExternalTemp;
+
+    int8_t highestExternalTemp;
+    int8_t lowestExternalTemp;
+    int8_t highestInternalTemp;
+    int8_t lowestInternalTemp;
+
+} s_CONTROLER;
+
+// Needs to match the ordering on the HTML screen
+enum Rule : uint8_t
+{
+    EmergencyStop = 0,
+    BMSError = 1,
+    CurrentMonitorOverCurrentAmps = 2,
+    ModuleOverVoltage = 3,
+    ModuleUnderVoltage = 4,
+    ModuleOverTemperatureInternal = 5,
+    ModuleUnderTemperatureInternal = 6,
+    ModuleOverTemperatureExternal = 7,
+    ModuleUnderTemperatureExternal = 8,
+    CurrentMonitorOverVoltage = 9,
+    CurrentMonitorUnderVoltage = 10,
+    BankOverVoltage = 11,
+    BankUnderVoltage = 12,
+    Timer2 = 13,
+    Timer1 = 14,
+    // Number of rules as defined in Rules.h (enum Rule)
+    RELAY_RULES
+};
+
+enum RelayState : uint8_t
+{
+    RELAY_ON = 0xFF,
+    RELAY_OFF = 0x99,
+    RELAY_X = 0x00
+};
+
+struct diybms_eeprom_settings
+{
+    uint8_t totalNumberOfBanks;
+    uint8_t totalNumberOfSeriesModules;
+/*
+    uint32_t rulevalue[RELAY_RULES];
+    uint32_t rulehysteresis[RELAY_RULES];
+
+    // Use a bit pattern to indicate the relay states
+    RelayState rulerelaystate[RELAY_RULES][RELAY_TOTAL];
+
+    // Default starting state for relay types
+    RelayState rulerelaydefault[RELAY_TOTAL];
+    */
+};
 
 #endif

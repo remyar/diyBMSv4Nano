@@ -13,7 +13,7 @@
 //================================================================================================//
 #include "../Low-Level/board.h"
 #include "./bms.h"
-//#include "../settings/settings.h"
+#include "../rules/rules.h"
 #include <SerialEncoder.h>
 #include <SoftwareSerial.h>
 #include "crc16.h"
@@ -42,23 +42,23 @@ SoftwareSerial portOne(12, 11);
 //------------------------------------------------------------------------------------------------//
 SerialEncoder myPacketSerial;
 
-cppQueue requestQueue(sizeof(PacketStruct), 4, FIFO);
-cppQueue replyQueue(sizeof(PacketStruct), 4, FIFO);
+static cppQueue requestQueue(sizeof(PacketStruct), 8, FIFO);
+static cppQueue replyQueue(sizeof(PacketStruct), 2, FIFO);
 
-PacketRequestGenerator prg = PacketRequestGenerator(&requestQueue);
-PacketReceiveProcessor receiveProc = PacketReceiveProcessor();
+static PacketRequestGenerator prg = PacketRequestGenerator(&requestQueue);
+static PacketReceiveProcessor receiveProc = PacketReceiveProcessor();
 
 // Memory to hold in and out serial buffer
-uint8_t SerialPacketReceiveBuffer[2 * sizeof(PacketStruct)];
+static uint8_t SerialPacketReceiveBuffer[2 * sizeof(PacketStruct)];
 static unsigned long _ms = millis();
-static unsigned long _ms2 = millis();
+static unsigned long _cpt = 0;
 // This large array holds all the information about the modules
 CellModuleInfo cmi[maximum_controller_cell_modules];
-uint16_t sequence = 0;
+static uint16_t sequence = 0;
 
-static e_STATE_BMS bmsState = BMS_START;
-static uint8_t NbCellules = 0;
+static e_STATE_BMS bmsState = READ_VOLTAGE_AND_STATUS;
 
+static uint16_t _dummyVar = 0;
 //------------------------------------------------------------------------------------------------//
 //---                                        Partagees                                         ---//
 //------------------------------------------------------------------------------------------------//
@@ -88,7 +88,7 @@ void onPacketReceived()
 
     if (!replyQueue.push(&ps))
     {
-        Serial.println("*Failed to queue reply*");
+
     }
 }
 
@@ -108,16 +108,159 @@ void BMS_TaskInit(void)
 
     myPacketSerial.begin(&SERIAL_DATA, &onPacketReceived, sizeof(PacketStruct), SerialPacketReceiveBuffer, sizeof(SerialPacketReceiveBuffer));
     _ms = millis();
-    _ms2 = millis();
-
-    bmsState = BMS_START;
-    NbCellules = 0;
+    bmsState = SEND_TIMING_REQUEST;
+    _cpt = 0;
 }
-
-
 
 void BMS_TaskRun(void)
 {
+    // Call update to receive, decode and process incoming packets
+    myPacketSerial.checkInputStream();
+
+    if (replyQueue.isEmpty() == false)
+    {
+        PacketStruct ps;
+        replyQueue.pop(&ps);
+        if (receiveProc.ProcessReply(&ps))
+        {
+        }
+    }
+
+    if ((millis() - _ms) >= 1000)
+    {
+        _ms = millis();
+        _cpt++;
+        if ((_cpt % 30) == 0)
+        {
+            bmsState = SEND_TIMING_REQUEST;
+        }
+    }
+    else
+    {
+        return;
+    }
+
+    switch (bmsState)
+    {
+    case (SEND_TIMING_REQUEST):
+    {
+        if (requestQueue.isEmpty() == false)
+        {
+            break;
+        }
+        prg.sendTimingRequest();
+        _dummyVar = 0;
+        bmsState = SEND_SETTINGS_REQUEST;
+        break;
+    }
+    case (SEND_SETTINGS_REQUEST):
+    {
+        if (requestQueue.isEmpty() == false)
+        {
+            break;
+        }
+
+        for (uint8_t module = _dummyVar; module < maximum_controller_cell_modules; module++)
+        {
+
+            prg.sendGetSettingsRequest(module);
+            _dummyVar++;
+            if (_dummyVar >= 2)
+            {
+                bmsState = SEND_BALANCE_CURRENT_COUNT_REQUEST;
+                break;
+            }
+            if ((_dummyVar % 4) == 0)
+            {
+                break;
+            }
+        }
+        break;
+    }
+    case (SEND_BALANCE_CURRENT_COUNT_REQUEST):
+    {
+        if (requestQueue.isEmpty() == false)
+        {
+            break;
+        }
+        uint8_t startmodule = 0;
+        uint16_t endmodule = 1; //-- max module configured - 1
+        prg.sendReadBalanceCurrentCountRequest(startmodule, endmodule);
+        bmsState = SEND_PACKET_RECEIVED_REQUEST;
+        break;
+    }
+    case (SEND_PACKET_RECEIVED_REQUEST):
+    {
+        if (requestQueue.isEmpty() == false)
+        {
+            break;
+        }
+        uint8_t startmodule = 0;
+        uint16_t endmodule = 1; //-- max module configured - 1
+        prg.sendReadPacketsReceivedRequest(startmodule, endmodule);
+        bmsState = SEND_BAD_PACKET_COUNTER;
+        break;
+    }
+    case (SEND_BAD_PACKET_COUNTER):
+    {
+        if (requestQueue.isEmpty() == false)
+        {
+            break;
+        }
+        uint8_t startmodule = 0;
+        uint16_t endmodule = 1; //-- max module configured - 1
+        prg.sendReadBadPacketCounter(startmodule, endmodule);
+        bmsState = READ_VOLTAGE_AND_STATUS;
+        s_CONTROLER * ctrl = RULES_GetControllerPtr();
+        ctrl->isStarted = true;
+        break;
+    }
+    case (READ_VOLTAGE_AND_STATUS):
+    {
+        if ((_cpt % 3) != 0)
+        {
+            break;
+        }
+        uint8_t startmodule = 0;
+        uint16_t endmodule = 1; //-- max module configured - 1
+        prg.sendCellVoltageRequest(startmodule, endmodule);
+        prg.sendCellTemperatureRequest(startmodule, endmodule);
+        for (uint8_t m = startmodule; m <= endmodule; m++)
+        {
+            if (cmi[m].inBypass)
+            {
+                prg.sendReadBalancePowerRequest(startmodule, endmodule);
+                // We only need 1 reading for whole bank
+                break;
+            }
+        }
+        break;
+    }
+    }
+
+    if (requestQueue.isEmpty() == false)
+    {
+        GPIO_BUILTIN_LED_ON();
+        PacketStruct transmitBuffer;
+
+        requestQueue.pop(&transmitBuffer);
+        sequence++;
+        transmitBuffer.sequence = sequence;
+
+        if (transmitBuffer.command == COMMAND::Timing)
+        {
+            // Timestamp at the last possible moment
+            uint32_t t = millis();
+            transmitBuffer.moduledata[0] = (t & 0xFFFF0000) >> 16;
+            transmitBuffer.moduledata[1] = t & 0x0000FFFF;
+        }
+
+        transmitBuffer.crc = CRC16::CalculateArray((uint8_t *)&transmitBuffer, sizeof(PacketStruct) - 2);
+        myPacketSerial.sendBuffer((byte *)&transmitBuffer);
+        GPIO_BUILTIN_LED_OFF();
+    }
+
+    /*
     switch (bmsState)
     {
     case (BMS_START):
@@ -155,6 +298,12 @@ void BMS_TaskRun(void)
     }
     case (BMS_RUN):
     {
+        if ((millis() - _ms3) >= 6500)
+        {
+            _ms3 = millis();
+            bmsState =
+            return;
+        }
         if ((millis() - _ms) >= 3000)
         {
             _ms = millis();
@@ -218,45 +367,14 @@ void BMS_TaskRun(void)
         replyQueue.pop(&ps);
         if (receiveProc.ProcessReply(&ps))
         {
- /* 
-            for (int j = 0; j < 2; j++)
-            {
-                CellModuleInfo *mod = &cmi[j];
-
-                Serial.println("Module " + String(j) + " ****************");
-                 Serial.println("badPacketCount : " + String(mod->badPacketCount));
-                    Serial.println("BalanceCurrentCount : " + String(mod->BalanceCurrentCount));
-                Serial.println("BoardVersionNumber : " + String(mod->BoardVersionNumber));
-                  Serial.println("bypassOverTemp : " + String(mod->bypassOverTemp));
-                  Serial.println("BypassOverTempShutdown : " + String(mod->BypassOverTempShutdown));
-                  Serial.println("BypassThresholdmV : " + String(mod->BypassThresholdmV));
-                  Serial.println("CodeVersionNumber : " + String(mod->CodeVersionNumber));
-                  Serial.println("External_BCoefficient : " + String(mod->External_BCoefficient));
-                  Serial.println("externalTemp : " + String(mod->externalTemp));
-                  Serial.println("inBypass : " + String(mod->inBypass));
-                  Serial.println("Internal_BCoefficient : " + String(mod->Internal_BCoefficient));
-                  Serial.println("internalTemp : " + String(mod->internalTemp));
-                  Serial.println("LoadResistance : " + String(mod->LoadResistance));
-                  Serial.println("mVPerADC : " + String(mod->mVPerADC));
-                  Serial.println("PacketReceivedCount : " + String(mod->PacketReceivedCount));
-                  Serial.println("PWMValue : " + String(mod->PWMValue));
-                  Serial.println("settingsCached : " + String(mod->settingsCached));
-                  Serial.println("valid : " + String(mod->valid));
-                    Serial.println("voltagemV : " + String(mod->voltagemV));
-               Serial.println("voltagemVMax : " + String(mod->voltagemVMax));
-                 Serial.println("voltagemVMin : " + String(mod->voltagemVMin));
-                Serial.println("");
-            }*/
-            
         }
     }
-
-    // Call update to receive, decode and process incoming packets
-    myPacketSerial.checkInputStream();
+*/
 }
 
-uint8_t BMS_GetNbCells(void){
-    return NbCellules;
+uint8_t BMS_GetNbCells(void)
+{
+    return 0; // NbCellules;
 }
 
 CellModuleInfo *BMS_GetCMI(uint16_t idx)
