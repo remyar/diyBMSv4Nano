@@ -61,6 +61,9 @@ void SETTINGS_Load(void)
 {
     EEPROM.get(0, settings.totalNumberOfBanks);
     EEPROM.get(1, settings.totalNumberOfSeriesModules);
+
+    settings.totalNumberOfBanks = settings.totalNumberOfBanks < 1 ? 1 : settings.totalNumberOfBanks;
+    settings.totalNumberOfSeriesModules = settings.totalNumberOfSeriesModules < 1 ? 1 : settings.totalNumberOfSeriesModules;
 }
 
 void SETTINGS_SetTotalNumberOfBanks(uint8_t val)

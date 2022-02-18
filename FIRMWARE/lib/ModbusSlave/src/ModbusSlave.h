@@ -83,6 +83,6 @@ private:
     int ctrlPin;
     uint8_t unitID;
     uint8_t bufIn[MAX_BUFFER];
-    uint8_t bufOut[MAX_BUFFER];
+    uint8_t bufOut[MAX_BUFFER * 2];
 };
 

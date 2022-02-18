@@ -32,6 +32,7 @@ typedef enum {
     SEND_SETTINGS_REQUEST,
     SEND_BALANCE_CURRENT_COUNT_REQUEST,
     SEND_PACKET_RECEIVED_REQUEST,
+    SEND_IDENTIFY_REQUEST,
     SEND_BAD_PACKET_COUNTER
 }e_STATE_BMS;
 
@@ -58,5 +59,6 @@ uint8_t BMS_GetNbCells(void);
 CellModuleInfo* BMS_GetCMI(uint16_t idx);
 PacketRequestGenerator * BMS_GetPrg(void);
 PacketReceiveProcessor * BMS_GetReceiveProc(void);
+void BMS_SendIdentify(uint8_t cmiIdx);
 
 #endif //--- _BOARD_

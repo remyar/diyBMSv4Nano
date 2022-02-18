@@ -14,6 +14,7 @@
 #include "../Low-Level/board.h"
 #include "./bms.h"
 #include "../rules/rules.h"
+#include "../settings/settings.h"
 #include <SerialEncoder.h>
 #include <SoftwareSerial.h>
 #include "crc16.h"
@@ -42,7 +43,7 @@ SoftwareSerial portOne(12, 11);
 //------------------------------------------------------------------------------------------------//
 SerialEncoder myPacketSerial;
 
-static cppQueue requestQueue(sizeof(PacketStruct), 8, FIFO);
+static cppQueue requestQueue(sizeof(PacketStruct), 6, FIFO);
 static cppQueue replyQueue(sizeof(PacketStruct), 2, FIFO);
 
 static PacketRequestGenerator prg = PacketRequestGenerator(&requestQueue);
@@ -59,6 +60,7 @@ static uint16_t sequence = 0;
 static e_STATE_BMS bmsState = READ_VOLTAGE_AND_STATUS;
 
 static uint16_t _dummyVar = 0;
+//static uint8_t _sendIdentityTo = 0;
 //------------------------------------------------------------------------------------------------//
 //---                                        Partagees                                         ---//
 //------------------------------------------------------------------------------------------------//
@@ -88,7 +90,6 @@ void onPacketReceived()
 
     if (!replyQueue.push(&ps))
     {
-
     }
 }
 
@@ -142,6 +143,16 @@ void BMS_TaskRun(void)
 
     switch (bmsState)
     {
+    case (SEND_IDENTIFY_REQUEST):
+    {
+        if (requestQueue.isEmpty() == false)
+        {
+            break;
+        }
+        prg.sendIdentifyModuleRequest(_dummyVar);
+        bmsState = READ_VOLTAGE_AND_STATUS;
+        break;
+    }
     case (SEND_TIMING_REQUEST):
     {
         if (requestQueue.isEmpty() == false)
@@ -184,7 +195,7 @@ void BMS_TaskRun(void)
             break;
         }
         uint8_t startmodule = 0;
-        uint16_t endmodule = 1; //-- max module configured - 1
+        uint16_t endmodule = (settings.totalNumberOfBanks * settings.totalNumberOfSeriesModules) - 1; //-- max module configured - 1
         prg.sendReadBalanceCurrentCountRequest(startmodule, endmodule);
         bmsState = SEND_PACKET_RECEIVED_REQUEST;
         break;
@@ -196,7 +207,7 @@ void BMS_TaskRun(void)
             break;
         }
         uint8_t startmodule = 0;
-        uint16_t endmodule = 1; //-- max module configured - 1
+        uint16_t endmodule = (settings.totalNumberOfBanks * settings.totalNumberOfSeriesModules) - 1; //-- max module configured - 1
         prg.sendReadPacketsReceivedRequest(startmodule, endmodule);
         bmsState = SEND_BAD_PACKET_COUNTER;
         break;
@@ -208,10 +219,10 @@ void BMS_TaskRun(void)
             break;
         }
         uint8_t startmodule = 0;
-        uint16_t endmodule = 1; //-- max module configured - 1
+        uint16_t endmodule = (settings.totalNumberOfBanks * settings.totalNumberOfSeriesModules) - 1; //-- max module configured - 1
         prg.sendReadBadPacketCounter(startmodule, endmodule);
         bmsState = READ_VOLTAGE_AND_STATUS;
-        s_CONTROLER * ctrl = RULES_GetControllerPtr();
+        s_CONTROLER *ctrl = RULES_GetControllerPtr();
         ctrl->isStarted = true;
         break;
     }
@@ -222,7 +233,7 @@ void BMS_TaskRun(void)
             break;
         }
         uint8_t startmodule = 0;
-        uint16_t endmodule = 1; //-- max module configured - 1
+        uint16_t endmodule = (settings.totalNumberOfBanks * settings.totalNumberOfSeriesModules) - 1; //-- max module configured - 1
         prg.sendCellVoltageRequest(startmodule, endmodule);
         prg.sendCellTemperatureRequest(startmodule, endmodule);
         for (uint8_t m = startmodule; m <= endmodule; m++)
@@ -259,117 +270,6 @@ void BMS_TaskRun(void)
         myPacketSerial.sendBuffer((byte *)&transmitBuffer);
         GPIO_BUILTIN_LED_OFF();
     }
-
-    /*
-    switch (bmsState)
-    {
-    case (BMS_START):
-    {
-        if ((millis() - _ms) >= 1000)
-        {
-            _ms = millis();
-            prg.sendGetSettingsRequest(NbCellules);
-            NbCellules++;
-            if (NbCellules >= maximum_cell_modules_per_packet)
-            {
-                bmsState = BMS_GET_NB_CELLS;
-                _ms = millis();
-            }
-        }
-        break;
-    }
-    case (BMS_GET_NB_CELLS):
-    {
-        if ((millis() - _ms) >= 3000)
-        {
-            NbCellules = 0;
-            _ms = millis() - 5000;
-            for (int j = 0; j < maximum_cell_modules_per_packet; j++)
-            {
-                CellModuleInfo *mod = &cmi[j];
-                if (mod->BoardVersionNumber >= 440)
-                {
-                    NbCellules++;
-                }
-            }
-            bmsState = BMS_RUN;
-        }
-        break;
-    }
-    case (BMS_RUN):
-    {
-        if ((millis() - _ms3) >= 6500)
-        {
-            _ms3 = millis();
-            bmsState =
-            return;
-        }
-        if ((millis() - _ms) >= 3000)
-        {
-            _ms = millis();
-            uint16_t max = NbCellules;
-            uint8_t startmodule = 0;
-            uint16_t endmodule = (startmodule + maximum_cell_modules_per_packet) - 1;
-
-            // Limit to number of modules we have configured
-            if (endmodule > max)
-            {
-                endmodule = max - 1;
-            }
-
-            prg.sendCellVoltageRequest(startmodule, endmodule);
-            prg.sendCellTemperatureRequest(startmodule, endmodule);
-
-            // If any module is in bypass then request PWM reading for whole bank
-            for (uint8_t m = startmodule; m <= endmodule; m++)
-            {
-                if (cmi[m].inBypass)
-                {
-                    prg.sendReadBalancePowerRequest(startmodule, endmodule);
-                    // We only need 1 reading for whole bank
-                    break;
-                }
-            }
-        }
-        break;
-    }
-    }
-
-    if ((millis() - _ms2) >= 1000)
-    {
-        _ms2 = millis();
-        GPIO_BUILTIN_LED_ON();
-        if (requestQueue.isEmpty() == false)
-        {
-            PacketStruct transmitBuffer;
-
-            requestQueue.pop(&transmitBuffer);
-            sequence++;
-            transmitBuffer.sequence = sequence;
-
-            if (transmitBuffer.command == COMMAND::Timing)
-            {
-                // Timestamp at the last possible moment
-                uint32_t t = millis();
-                transmitBuffer.moduledata[0] = (t & 0xFFFF0000) >> 16;
-                transmitBuffer.moduledata[1] = t & 0x0000FFFF;
-            }
-
-            transmitBuffer.crc = CRC16::CalculateArray((uint8_t *)&transmitBuffer, sizeof(PacketStruct) - 2);
-            myPacketSerial.sendBuffer((byte *)&transmitBuffer);
-        }
-        GPIO_BUILTIN_LED_OFF();
-    }
-
-    if (replyQueue.isEmpty() == false)
-    {
-        PacketStruct ps;
-        replyQueue.pop(&ps);
-        if (receiveProc.ProcessReply(&ps))
-        {
-        }
-    }
-*/
 }
 
 uint8_t BMS_GetNbCells(void)
@@ -390,4 +290,10 @@ PacketRequestGenerator *BMS_GetPrg(void)
 PacketReceiveProcessor *BMS_GetReceiveProc(void)
 {
     return &receiveProc;
+}
+
+void BMS_SendIdentify(uint8_t cmiIdx)
+{
+    _dummyVar = cmiIdx;
+    bmsState = SEND_IDENTIFY_REQUEST;
 }

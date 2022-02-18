@@ -31,6 +31,11 @@ typedef union
     uint16_t word[2];
 } FLOATUNION_t;
 
+typedef union{
+    uint8_t bytes[2];
+    uint16_t number;
+}UINT16UNION_t;
+
 typedef union
 {
     uint8_t bytes[4];
@@ -79,8 +84,8 @@ struct CellModuleInfo
     bool bypassOverTemp : 1;
 
     uint16_t voltagemV;
-    uint16_t voltagemVMin;
-    uint16_t voltagemVMax;
+    uint16_t voltagemVMin = 0xFFFF;
+    uint16_t voltagemVMax = 0;
     // Signed integer byte (negative temperatures)
     int8_t internalTemp;
     int8_t externalTemp;
@@ -152,21 +157,21 @@ typedef struct
 // Needs to match the ordering on the HTML screen
 enum Rule : uint8_t
 {
-    EmergencyStop = 0,
-    BMSError = 1,
-    CurrentMonitorOverCurrentAmps = 2,
-    ModuleOverVoltage = 3,
-    ModuleUnderVoltage = 4,
-    ModuleOverTemperatureInternal = 5,
-    ModuleUnderTemperatureInternal = 6,
-    ModuleOverTemperatureExternal = 7,
-    ModuleUnderTemperatureExternal = 8,
+    ModuleOverVoltage = 0,
+    ModuleUnderVoltage = 1,
+    ModuleOverTemperatureInternal = 2,
+    ModuleUnderTemperatureInternal = 3,
+    ModuleOverTemperatureExternal = 4,
+    ModuleUnderTemperatureExternal = 5,
+    BankOverVoltage = 6,
+    BankUnderVoltage = 7,
+  /*  ModuleUnderTemperatureExternal = 8,
     CurrentMonitorOverVoltage = 9,
     CurrentMonitorUnderVoltage = 10,
     BankOverVoltage = 11,
     BankUnderVoltage = 12,
     Timer2 = 13,
-    Timer1 = 14,
+    Timer1 = 14,*/
     // Number of rules as defined in Rules.h (enum Rule)
     RELAY_RULES
 };

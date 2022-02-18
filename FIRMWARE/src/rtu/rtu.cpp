@@ -16,6 +16,7 @@
 #include "./rtu.h"
 #include "../bms/bms.h"
 #include "../rules/rules.h"
+#include "../settings/settings.h"
 #include <ModbusSlave.h>
 
 // AltSoftSerial porttwo;
@@ -49,7 +50,7 @@ enum
     CONTROLLER_READ_TEMPERATURE = 0x03,
     CONTROLLER_REPORT_NUMBER_OF_BAD_PACKET = 0x04,
     CONTROLLER_REPORT_CONFIGURATION = 0x05
-} ;
+};
 
 //================================================================================================//
 //                                      STRUCTURES ET UNIONS                                      //
@@ -78,7 +79,6 @@ enum
 uint8_t CbReadRegisters(uint8_t fc, uint16_t address, uint16_t length)
 {
     uint8_t result = STATUS_OK;
-
     switch (fc)
     {
     case FC_READ_HOLDING_REGISTERS:
@@ -87,14 +87,15 @@ uint8_t CbReadRegisters(uint8_t fc, uint16_t address, uint16_t length)
         {
         case (CONTOLLER_READ_VOLTAGE_AND_STATUS):
         {
-            s_CONTROLER * sctrl = RULES_GetControllerPtr();
-            slave.writeRegisterToBuffer(0,sctrl->isStarted);
-            for ( uint8_t i = 0 ; i < ((length-1)/2) ; i++){
+            s_CONTROLER *sctrl = RULES_GetControllerPtr();
+            slave.writeRegisterToBuffer(0, sctrl->isStarted);
+            for (uint8_t i = 0; i < ((length - 1) / 2); i++)
+            {
 
                 UINT32UNION_t val;
                 val.number = sctrl->packvoltage[i];
-                slave.writeRegisterToBuffer((i*2) + 1, val.word[0]);
-                slave.writeRegisterToBuffer(((i*2)+1) + 1, val.word[1]);
+                slave.writeRegisterToBuffer((i * 2) + 1, val.word[0]);
+                slave.writeRegisterToBuffer(((i * 2) + 1) + 1, val.word[1]);
             }
             break;
         }
@@ -130,9 +131,49 @@ uint8_t CbReadRegisters(uint8_t fc, uint16_t address, uint16_t length)
     }
     case FC_READ_INPUT_REGISTERS:
     {
+        uint8_t cmiIdx = (address & 0xFF00) >> 8;
+        address &= 0x00FF;
+
+        switch (address)
+        {
+        case (CONTOLLER_READ_VOLTAGE_AND_STATUS):
+        {
+            //-- all data
+            uint8_t j = cmiIdx;
+            uint8_t i = 0;
+            CellModuleInfo *cmi = BMS_GetCMI(cmiIdx);
+            slave.writeRegisterToBuffer(i, cmi->valid);
+            i++;
+            slave.writeRegisterToBuffer(i, cmi->voltagemV);
+            i++;
+            slave.writeRegisterToBuffer(i, cmi->voltagemVMin);
+            i++;
+            slave.writeRegisterToBuffer(i, cmi->voltagemVMax);
+            i++;
+            slave.writeRegisterToBuffer(i, cmi->internalTemp);
+            i++;
+            slave.writeRegisterToBuffer(i, cmi->externalTemp);
+            i++;
+            slave.writeRegisterToBuffer(i, cmi->inBypass);
+            i++;
+            slave.writeRegisterToBuffer(i, cmi->PWMValue);
+            i++;
+            slave.writeRegisterToBuffer(i, cmi->badPacketCount);
+            i++;
+            slave.writeRegisterToBuffer(i, cmi->PacketReceivedCount);
+            i++;
+            slave.writeRegisterToBuffer(i, cmi->BalanceCurrentCount);
+            break;
+        }
+        case (CONTROLLER_IDENTIFY):
+        {
+            break;
+        }
+        default:
         {
             result = STATUS_ILLEGAL_DATA_ADDRESS;
             break;
+        }
         }
         break;
     }
@@ -148,6 +189,35 @@ uint8_t CbReadRegisters(uint8_t fc, uint16_t address, uint16_t length)
 uint8_t CbWriteRegisters(uint8_t fc, uint16_t address, uint16_t length)
 {
     uint8_t result = STATUS_OK;
+    switch (fc)
+    {
+    case (FC_WRITE_MULTIPLE_REGISTERS):
+    {
+        uint8_t cmiIdx = (address & 0xFF00) >> 8;
+        address = address & 0x00FF;
+        switch (address)
+        {
+        case (CONTROLLER_IDENTIFY):
+        {
+            BMS_SendIdentify(cmiIdx);
+            break;
+        }
+        case (CONTROLLER_REPORT_CONFIGURATION):
+        {
+            if ( cmiIdx == 0xFF ){
+                // get uint16_t value from the request buffer.
+                SETTINGS_SetTotalNumberOfBanks(slave.readRegisterFromBuffer(0));
+                SETTINGS_SetTotalNumberOfSeriesModules(slave.readRegisterFromBuffer(1));
+            }else {
+                //-- pass to cmi
+            }
+            break;
+        }
+        }
+        break;
+    }
+    }
+
     return result;
 }
 //------------------------------------------------------------------------------------------------//
