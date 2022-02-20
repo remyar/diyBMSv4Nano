@@ -44,5 +44,7 @@ extern diybms_eeprom_settings settings;
 void SETTINGS_Load(void);
 void SETTINGS_SetTotalNumberOfBanks(uint8_t val);
 void SETTINGS_SetTotalNumberOfSeriesModules(uint8_t val);
+void SETTINGS_SetBypassOverTempShutdown(uint8_t val);
+void SETTINGS_SetBypassThresholdmV(uint16_t val);
 
 #endif //--- _BOARD_

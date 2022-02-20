@@ -60,7 +60,7 @@ static uint16_t sequence = 0;
 static e_STATE_BMS bmsState = READ_VOLTAGE_AND_STATUS;
 
 static uint16_t _dummyVar = 0;
-//static uint8_t _sendIdentityTo = 0;
+// static uint8_t _sendIdentityTo = 0;
 //------------------------------------------------------------------------------------------------//
 //---                                        Partagees                                         ---//
 //------------------------------------------------------------------------------------------------//
@@ -131,7 +131,7 @@ void BMS_TaskRun(void)
     {
         _ms = millis();
         _cpt++;
-        if ((_cpt % 30) == 0)
+        if (((_cpt % 30) == 0) && (bmsState != SEND_IDENTIFY_REQUEST) && (bmsState != SEND_GLOBAL_CONFIG))
         {
             bmsState = SEND_TIMING_REQUEST;
         }
@@ -176,7 +176,7 @@ void BMS_TaskRun(void)
 
             prg.sendGetSettingsRequest(module);
             _dummyVar++;
-            if (_dummyVar >= 2)
+            if (_dummyVar >= (settings.totalNumberOfBanks * settings.totalNumberOfSeriesModules) - 1)
             {
                 bmsState = SEND_BALANCE_CURRENT_COUNT_REQUEST;
                 break;
@@ -234,6 +234,7 @@ void BMS_TaskRun(void)
         }
         uint8_t startmodule = 0;
         uint16_t endmodule = (settings.totalNumberOfBanks * settings.totalNumberOfSeriesModules) - 1; //-- max module configured - 1
+
         prg.sendCellVoltageRequest(startmodule, endmodule);
         prg.sendCellTemperatureRequest(startmodule, endmodule);
         for (uint8_t m = startmodule; m <= endmodule; m++)
@@ -245,6 +246,16 @@ void BMS_TaskRun(void)
                 break;
             }
         }
+        break;
+    }
+    case (SEND_GLOBAL_CONFIG):
+    {
+        if (requestQueue.isEmpty() == false)
+        {
+            break;
+        }
+        prg.sendSaveGlobalSetting(settings.BypassThresholdmV , settings.BypassOverTempShutdown);
+        bmsState = READ_VOLTAGE_AND_STATUS;
         break;
     }
     }
@@ -296,4 +307,9 @@ void BMS_SendIdentify(uint8_t cmiIdx)
 {
     _dummyVar = cmiIdx;
     bmsState = SEND_IDENTIFY_REQUEST;
+}
+
+void BMS_SendGlobalConfig(void)
+{
+    bmsState = SEND_GLOBAL_CONFIG;
 }

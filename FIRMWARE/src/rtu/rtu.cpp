@@ -204,11 +204,18 @@ uint8_t CbWriteRegisters(uint8_t fc, uint16_t address, uint16_t length)
         }
         case (CONTROLLER_REPORT_CONFIGURATION):
         {
-            if ( cmiIdx == 0xFF ){
+            if (cmiIdx == 0xFF)
+            {
                 // get uint16_t value from the request buffer.
                 SETTINGS_SetTotalNumberOfBanks(slave.readRegisterFromBuffer(0));
                 SETTINGS_SetTotalNumberOfSeriesModules(slave.readRegisterFromBuffer(1));
-            }else {
+                SETTINGS_SetBypassOverTempShutdown(slave.readRegisterFromBuffer(2));
+                SETTINGS_SetBypassThresholdmV(slave.readRegisterFromBuffer(3));
+
+                BMS_SendGlobalConfig();
+            }
+            else
+            {
                 //-- pass to cmi
             }
             break;

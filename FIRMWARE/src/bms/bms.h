@@ -33,7 +33,8 @@ typedef enum {
     SEND_BALANCE_CURRENT_COUNT_REQUEST,
     SEND_PACKET_RECEIVED_REQUEST,
     SEND_IDENTIFY_REQUEST,
-    SEND_BAD_PACKET_COUNTER
+    SEND_BAD_PACKET_COUNTER,
+    SEND_GLOBAL_CONFIG
 }e_STATE_BMS;
 
 extern CellModuleInfo cmi[maximum_controller_cell_modules];
@@ -60,5 +61,6 @@ CellModuleInfo* BMS_GetCMI(uint16_t idx);
 PacketRequestGenerator * BMS_GetPrg(void);
 PacketReceiveProcessor * BMS_GetReceiveProc(void);
 void BMS_SendIdentify(uint8_t cmiIdx);
+void BMS_SendGlobalConfig(void);
 
 #endif //--- _BOARD_

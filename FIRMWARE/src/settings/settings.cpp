@@ -64,16 +64,34 @@ void SETTINGS_Load(void)
 
     settings.totalNumberOfBanks = settings.totalNumberOfBanks < 1 ? 1 : settings.totalNumberOfBanks;
     settings.totalNumberOfSeriesModules = settings.totalNumberOfSeriesModules < 1 ? 1 : settings.totalNumberOfSeriesModules;
+
+    EEPROM.get(2, settings.BypassOverTempShutdown);
+    EEPROM.get(3, settings.BypassThresholdmV);
+
+    settings.BypassOverTempShutdown = settings.BypassOverTempShutdown < 1 ? 65 : settings.BypassOverTempShutdown;
+    settings.BypassThresholdmV = settings.BypassThresholdmV < 1 ? 3000 : settings.BypassThresholdmV;
 }
 
 void SETTINGS_SetTotalNumberOfBanks(uint8_t val)
 {
     settings.totalNumberOfBanks = val;
-    EEPROM.write(0,val);
+    EEPROM.write(0, val);
 }
 
 void SETTINGS_SetTotalNumberOfSeriesModules(uint8_t val)
 {
     settings.totalNumberOfSeriesModules = val;
-    EEPROM.write(1,val);
+    EEPROM.write(1, val);
+}
+
+void SETTINGS_SetBypassOverTempShutdown(uint8_t val)
+{
+    settings.BypassOverTempShutdown = val;
+    EEPROM.write(2, val);
+}
+
+void SETTINGS_SetBypassThresholdmV(uint16_t val)
+{
+    settings.BypassThresholdmV = val;
+    EEPROM.write(3, val);
 }
