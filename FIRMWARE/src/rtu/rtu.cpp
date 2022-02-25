@@ -89,14 +89,19 @@ uint8_t CbReadRegisters(uint8_t fc, uint16_t address, uint16_t length)
         {
             s_CONTROLER *sctrl = RULES_GetControllerPtr();
             slave.writeRegisterToBuffer(0, sctrl->isStarted);
+            
+            for ( int i = 0 ; i < RELAY_RULES ; i++ ){
+                slave.writeRegisterToBuffer(i+1,sctrl->rule_outcome[i]);
+            }
+            
             for (uint8_t i = 0; i < ((length - 1) / 2); i++)
             {
-
                 UINT32UNION_t val;
                 val.number = sctrl->packvoltage[i];
-                slave.writeRegisterToBuffer((i * 2) + 1, val.word[0]);
-                slave.writeRegisterToBuffer(((i * 2) + 1) + 1, val.word[1]);
+                slave.writeRegisterToBuffer((i * 2) + 1 + RELAY_RULES, val.word[0]);
+                slave.writeRegisterToBuffer(((i * 2) + 1 + RELAY_RULES) + 1, val.word[1]);
             }
+          
             break;
         }
         case (CONTROLLER_IDENTIFY):
@@ -214,9 +219,39 @@ uint8_t CbWriteRegisters(uint8_t fc, uint16_t address, uint16_t length)
 
                 BMS_SendGlobalConfig();
             }
+            else if ((cmiIdx & 0xC0) == 0x80)
+            {
+                uint8_t idx = (cmiIdx & 0x3F);
+                //-- rule hysteresis
+                UINT32UNION_t v;
+                v.word[0] = slave.readRegisterFromBuffer(0);
+                v.word[1] = slave.readRegisterFromBuffer(1);
+                SETTINGS_SetRuleHysteresis(idx, v.number);
+                v.word[0] = slave.readRegisterFromBuffer(2);
+                v.word[1] = slave.readRegisterFromBuffer(3);
+                SETTINGS_SetRuleValue(idx, v.number);
+            }
+            else if ((cmiIdx & 0xC0) == 0xC0)
+            {
+                uint8_t idx = (cmiIdx & 0x3F);
+
+                SETTINGS_SetRelayState(idx,
+                                       slave.readRegisterFromBuffer(0),
+                                       slave.readRegisterFromBuffer(1),
+                                       slave.readRegisterFromBuffer(2),
+                                       slave.readRegisterFromBuffer(3));
+            }
+            else if ((cmiIdx & 0x0F) == 0X0F)
+            {
+                SETTINGS_SetRelayDefaultState(slave.readRegisterFromBuffer(0),
+                                              slave.readRegisterFromBuffer(1),
+                                              slave.readRegisterFromBuffer(2),
+                                              slave.readRegisterFromBuffer(3));
+            }
             else
             {
                 //-- pass to cmi
+                result = STATUS_ILLEGAL_DATA_ADDRESS;
             }
             break;
         }

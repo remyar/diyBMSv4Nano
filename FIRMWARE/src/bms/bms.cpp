@@ -43,8 +43,8 @@ SoftwareSerial portOne(12, 11);
 //------------------------------------------------------------------------------------------------//
 SerialEncoder myPacketSerial;
 
-static cppQueue requestQueue(sizeof(PacketStruct), 6, FIFO);
-static cppQueue replyQueue(sizeof(PacketStruct), 2, FIFO);
+static cppQueue requestQueue(sizeof(PacketStruct), 6, FIFO);    //-- 40 * 6     = 240
+static cppQueue replyQueue(sizeof(PacketStruct), 2, FIFO);      //-- 40 * 2     = 80
 
 static PacketRequestGenerator prg = PacketRequestGenerator(&requestQueue);
 static PacketReceiveProcessor receiveProc = PacketReceiveProcessor();
@@ -149,7 +149,7 @@ void BMS_TaskRun(void)
         {
             break;
         }
-        prg.sendIdentifyModuleRequest(_dummyVar);
+
         bmsState = READ_VOLTAGE_AND_STATUS;
         break;
     }
@@ -254,7 +254,7 @@ void BMS_TaskRun(void)
         {
             break;
         }
-        prg.sendSaveGlobalSetting(settings.BypassThresholdmV , settings.BypassOverTempShutdown);
+
         bmsState = READ_VOLTAGE_AND_STATUS;
         break;
     }
@@ -305,11 +305,14 @@ PacketReceiveProcessor *BMS_GetReceiveProc(void)
 
 void BMS_SendIdentify(uint8_t cmiIdx)
 {
-    _dummyVar = cmiIdx;
+    prg.clearQueue();
+    prg.sendIdentifyModuleRequest(cmiIdx);
     bmsState = SEND_IDENTIFY_REQUEST;
 }
 
 void BMS_SendGlobalConfig(void)
 {
+    prg.clearQueue();
+    prg.sendSaveGlobalSetting(settings.BypassThresholdmV, settings.BypassOverTempShutdown);
     bmsState = SEND_GLOBAL_CONFIG;
 }

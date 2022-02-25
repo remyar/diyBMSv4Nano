@@ -135,7 +135,7 @@ int Modbus::poll() {
         }
 
         // we waited for the inter-frame timeout, read the frame.
-        lengthIn = serial.readBytes(bufIn, MAX_BUFFER);
+        lengthIn = serial.readBytes(bufIn, MAX_BUFFER_IN);
         last_receive_len = 0;
         last_receive_time = 0;
     } else {
@@ -171,7 +171,7 @@ int Modbus::poll() {
         case FC_READ_HOLDING_REGISTERS: // read holding registers (analog out state)
         case FC_READ_INPUT_REGISTERS: // read input registers (analog in)
             // sanity check.
-            if (length > MAX_BUFFER) {
+            if (length > MAX_BUFFER_IN) {
                 error = STATUS_ILLEGAL_DATA_ADDRESS;
                 // as long as I am not using gotos at all 
                 // in case of protocol handling they are usefull for 
@@ -194,7 +194,7 @@ int Modbus::poll() {
             break;
         case FC_WRITE_MULTIPLE_REGISTERS:
             // sanity check.
-            if (length > MAX_BUFFER) {
+            if (length > MAX_BUFFER_IN) {
                 error = STATUS_ILLEGAL_DATA_ADDRESS;
                 goto respond;
             }
@@ -386,7 +386,7 @@ void Modbus::writeStringToBuffer(int offset, uint8_t *str, uint8_t length) {
     // check string length.
     // TODO retun code informing calling function about result
     // so that callback can return eg STATUS_ILLEGAL_DATA_ADDRESS
-    if ((address + length) >= MAX_BUFFER) return;
+    if ((address + length) >= MAX_BUFFER_OUT) return;
 
     memcpy(bufOut + address, str, length);
 }

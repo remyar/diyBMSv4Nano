@@ -31,10 +31,11 @@ typedef union
     uint16_t word[2];
 } FLOATUNION_t;
 
-typedef union{
+typedef union
+{
     uint8_t bytes[2];
     uint16_t number;
-}UINT16UNION_t;
+} UINT16UNION_t;
 
 typedef union
 {
@@ -129,6 +130,35 @@ enum ControllerState : uint8_t
 // This holds all the cell information in a large array array
 extern CellModuleInfo cmi[maximum_controller_cell_modules];
 
+// Needs to match the ordering on the HTML screen
+enum Rule : uint8_t
+{
+    ModuleOverVoltage = 0,
+    ModuleUnderVoltage = 1,
+    ModuleOverTemperatureInternal = 2,
+    ModuleUnderTemperatureInternal = 3,
+    ModuleOverTemperatureExternal = 4,
+    ModuleUnderTemperatureExternal = 5,
+    BankOverVoltage = 6,
+    BankUnderVoltage = 7,
+    /*  ModuleUnderTemperatureExternal = 8,
+      CurrentMonitorOverVoltage = 9,
+      CurrentMonitorUnderVoltage = 10,
+      BankOverVoltage = 11,
+      BankUnderVoltage = 12,
+      Timer2 = 13,
+      Timer1 = 14,*/
+    // Number of rules as defined in Rules.h (enum Rule)
+    RELAY_RULES
+};
+
+enum RelayState : uint8_t
+{
+    RELAY_ON = 0xFF,
+    RELAY_OFF = 0x99,
+    RELAY_X = 0x00
+};
+
 typedef struct
 {
     bool isStarted;
@@ -152,36 +182,10 @@ typedef struct
     int8_t highestInternalTemp;
     int8_t lowestInternalTemp;
 
+    bool rule_outcome[RELAY_RULES];
+
+    RelayState previousRelayState[RELAY_TOTAL];
 } s_CONTROLER;
-
-// Needs to match the ordering on the HTML screen
-enum Rule : uint8_t
-{
-    ModuleOverVoltage = 0,
-    ModuleUnderVoltage = 1,
-    ModuleOverTemperatureInternal = 2,
-    ModuleUnderTemperatureInternal = 3,
-    ModuleOverTemperatureExternal = 4,
-    ModuleUnderTemperatureExternal = 5,
-    BankOverVoltage = 6,
-    BankUnderVoltage = 7,
-  /*  ModuleUnderTemperatureExternal = 8,
-    CurrentMonitorOverVoltage = 9,
-    CurrentMonitorUnderVoltage = 10,
-    BankOverVoltage = 11,
-    BankUnderVoltage = 12,
-    Timer2 = 13,
-    Timer1 = 14,*/
-    // Number of rules as defined in Rules.h (enum Rule)
-    RELAY_RULES
-};
-
-enum RelayState : uint8_t
-{
-    RELAY_ON = 0xFF,
-    RELAY_OFF = 0x99,
-    RELAY_X = 0x00
-};
 
 struct diybms_eeprom_settings
 {
@@ -189,7 +193,7 @@ struct diybms_eeprom_settings
     uint8_t totalNumberOfSeriesModules;
     uint8_t BypassOverTempShutdown;
     uint16_t BypassThresholdmV;
-/*
+
     uint32_t rulevalue[RELAY_RULES];
     uint32_t rulehysteresis[RELAY_RULES];
 
@@ -198,7 +202,6 @@ struct diybms_eeprom_settings
 
     // Default starting state for relay types
     RelayState rulerelaydefault[RELAY_TOTAL];
-    */
 };
 
 #endif

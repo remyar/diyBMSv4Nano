@@ -3,4 +3,6 @@
   (lib (name "arduino_nano")(type "KiCad")(uri "${KIPRJMOD}/arduino_nano.pretty")(options "")(descr ""))
   (lib (name "librarie")(type "KiCad")(uri "${KIPRJMOD}/librarie.pretty")(options "")(descr ""))
   (lib (name "ModuleV440")(type "KiCad")(uri "${KIPRJMOD}/ModuleV440.pretty")(options "")(descr ""))
+  (lib (name "librarie2")(type "KiCad")(uri "${KIPRJMOD}/librarie2.pretty")(options "")(descr ""))
+  (lib (name "ESP8266ControllerCircuit")(type "KiCad")(uri "${KIPRJMOD}/ESP8266ControllerCircuit.pretty")(options "")(descr ""))
 )

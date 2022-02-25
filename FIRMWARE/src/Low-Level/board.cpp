@@ -64,6 +64,15 @@ static void _InitClocks(void)
 static void _InitGpio(void)
 {
     pinMode(GPIO_PIN_BUILTIN_LED, OUTPUT);
+    pinMode(GPIO_PIN_RELAY_1 , OUTPUT);
+    pinMode(GPIO_PIN_RELAY_2 , OUTPUT);
+    pinMode(GPIO_PIN_RELAY_3 , OUTPUT);
+    pinMode(GPIO_PIN_RELAY_4 , OUTPUT);
+
+    digitalWrite(GPIO_PIN_RELAY_1 , LOW);
+    digitalWrite(GPIO_PIN_RELAY_2 , LOW);
+    digitalWrite(GPIO_PIN_RELAY_3 , LOW);
+    digitalWrite(GPIO_PIN_RELAY_4 , LOW);
 }
 
 //------------------------------------------------------------------------------------------------//

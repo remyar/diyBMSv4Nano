@@ -26,6 +26,11 @@
 #define GPIO_BUILTIN_LED_OFF() digitalWrite(GPIO_PIN_BUILTIN_LED, LOW)
 #define GPIO_BUILTIN_LED(X) digitalWrite(GPIO_PIN_BUILTIN_LED, X)
 
+#define GPIO_PIN_RELAY_1    A0
+#define GPIO_PIN_RELAY_2    A1
+#define GPIO_PIN_RELAY_3    A2
+#define GPIO_PIN_RELAY_4    A3
+
 #define GPIO_WRITE(X,Y) digitalWrite(X, Y)
 
 //================================================================================================//

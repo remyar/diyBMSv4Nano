@@ -16,7 +16,8 @@
 
 #include <Arduino.h>
 
-#define MAX_BUFFER 32
+#define MAX_BUFFER_IN 32
+#define MAX_BUFFER_OUT 64
 
 /**
  * Modbus function codes
@@ -82,7 +83,7 @@ private:
 
     int ctrlPin;
     uint8_t unitID;
-    uint8_t bufIn[MAX_BUFFER];
-    uint8_t bufOut[MAX_BUFFER * 2];
+    uint8_t bufIn[MAX_BUFFER_IN];
+    uint8_t bufOut[MAX_BUFFER_OUT];
 };
 

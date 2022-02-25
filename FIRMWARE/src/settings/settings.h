@@ -46,5 +46,8 @@ void SETTINGS_SetTotalNumberOfBanks(uint8_t val);
 void SETTINGS_SetTotalNumberOfSeriesModules(uint8_t val);
 void SETTINGS_SetBypassOverTempShutdown(uint8_t val);
 void SETTINGS_SetBypassThresholdmV(uint16_t val);
-
+void SETTINGS_SetRuleHysteresis(uint8_t idx , uint32_t val);
+void SETTINGS_SetRuleValue(uint8_t idx , uint32_t val);
+void SETTINGS_SetRelayState(uint8_t idx , uint8_t relay1 , uint8_t relay2 , uint8_t relay3, uint8_t relay4 );
+void SETTINGS_SetRelayDefaultState(uint8_t relay1, uint8_t relay2, uint8_t relay3, uint8_t relay4);
 #endif //--- _BOARD_

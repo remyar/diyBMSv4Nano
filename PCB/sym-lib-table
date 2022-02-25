@@ -3,4 +3,7 @@
   (lib (name "arduino_nano")(type "Legacy")(uri "${KIPRJMOD}/arduino_nano.lib")(options "")(descr ""))
   (lib (name "librarie")(type "KiCad")(uri "${KIPRJMOD}/librarie.kicad_sym")(options "")(descr ""))
   (lib (name "ModuleV440-cache")(type "Legacy")(uri "${KIPRJMOD}/ModuleV440-cache.lib")(options "")(descr ""))
+  (lib (name "ESP8266ControllerCircuit-cache")(type "Legacy")(uri "${KIPRJMOD}/ESP8266ControllerCircuit-cache.lib")(options "")(descr ""))
+  (lib (name "ControllerCircuit")(type "Legacy")(uri "${KIPRJMOD}/ControllerCircuit.lib")(options "")(descr ""))
+  (lib (name "librarie2")(type "KiCad")(uri "${KIPRJMOD}/librarie2.kicad_sym")(options "")(descr ""))
 )

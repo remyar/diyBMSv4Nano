@@ -40,7 +40,8 @@ public:
   void sendBadPacketCounterReset();
   void sendTimingRequest();
   void sendResetBalanceCurrentCounter();
-
+    void clearQueue();
+    
   uint32_t packetsGenerated = 0;
 
 
