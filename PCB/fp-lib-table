@@ -5,4 +5,6 @@
   (lib (name "ModuleV440")(type "KiCad")(uri "${KIPRJMOD}/ModuleV440.pretty")(options "")(descr ""))
   (lib (name "librarie2")(type "KiCad")(uri "${KIPRJMOD}/librarie2.pretty")(options "")(descr ""))
   (lib (name "ESP8266ControllerCircuit")(type "KiCad")(uri "${KIPRJMOD}/ESP8266ControllerCircuit.pretty")(options "")(descr ""))
+  (lib (name "librarie3")(type "KiCad")(uri "${KIPRJMOD}/librarie3.pretty")(options "")(descr ""))
+  (lib (name "librarie4")(type "KiCad")(uri "C:/Users/FRREMARN/Desktop/librarie4.pretty")(options "")(descr ""))
 )
