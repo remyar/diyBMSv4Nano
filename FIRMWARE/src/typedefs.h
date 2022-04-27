@@ -19,7 +19,7 @@
 
 // Maximum number of banks allowed
 // This also needs changing in default.htm (MAXIMUM_NUMBER_OF_BANKS)
-#define maximum_number_of_banks 4
+#define maximum_number_of_banks 1
 
 // Number of relays on board (4)
 #define RELAY_TOTAL 4

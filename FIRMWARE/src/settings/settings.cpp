@@ -63,7 +63,10 @@ void SETTINGS_Load(void)
     settings.totalNumberOfSeriesModules = EEPROM.read(1);
 
     settings.totalNumberOfBanks = settings.totalNumberOfBanks < 1 ? 1 : settings.totalNumberOfBanks;
+    settings.totalNumberOfBanks = settings.totalNumberOfBanks == 0xFF ? 1 : settings.totalNumberOfBanks;
+
     settings.totalNumberOfSeriesModules = settings.totalNumberOfSeriesModules < 1 ? 1 : settings.totalNumberOfSeriesModules;
+    settings.totalNumberOfSeriesModules = settings.totalNumberOfSeriesModules == 0xFF ? 1 : settings.totalNumberOfSeriesModules;
 
     settings.BypassOverTempShutdown = EEPROM.read(2);
     settings.BypassThresholdmV = EEPROM.read(3);

@@ -19,7 +19,7 @@
 #include <SoftwareSerial.h>
 #include "crc16.h"
 
-SoftwareSerial portOne(12, 11);
+SoftwareSerial portOne(11, 10);
 
 //================================================================================================//
 //                                            DEFINES                                             //
