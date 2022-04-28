@@ -149,7 +149,6 @@ void BMS_TaskRun(void)
         {
             break;
         }
-
         bmsState = READ_VOLTAGE_AND_STATUS;
         break;
     }
@@ -162,7 +161,7 @@ void BMS_TaskRun(void)
         prg.sendTimingRequest();
         _dummyVar = 0;
         bmsState = SEND_SETTINGS_REQUEST;
-        break;
+        
     }
     case (SEND_SETTINGS_REQUEST):
     {
@@ -176,7 +175,7 @@ void BMS_TaskRun(void)
 
             prg.sendGetSettingsRequest(module);
             _dummyVar++;
-            if (_dummyVar >= (settings.totalNumberOfBanks * settings.totalNumberOfSeriesModules) - 1)
+            if (_dummyVar >= (settings.totalNumberOfBanks * settings.totalNumberOfSeriesModules))
             {
                 bmsState = SEND_BALANCE_CURRENT_COUNT_REQUEST;
                 break;
