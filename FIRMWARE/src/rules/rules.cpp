@@ -62,7 +62,9 @@ void _RunRules(uint32_t *value, uint32_t *hysteresisvalue, bool emergencyStop, u
         sCtrl.rule_outcome[Rule::ModuleUnderTemperatureInternal] = false;
         sCtrl.rule_outcome[Rule::ModuleOverTemperatureExternal] = false;
         sCtrl.rule_outcome[Rule::ModuleUnderTemperatureExternal] = false;
-
+        sCtrl.rule_outcome[Rule::BankOverVoltage] = false;
+        sCtrl.rule_outcome[Rule::BankUnderVoltage] = false;
+        
         // Abort processing any more rules until controller is stable/running state
         return;
     }
@@ -286,6 +288,11 @@ void RULES_TaskInit(void)
     {
         sCtrl.previousRelayState[i] = RELAY_OFF;
     }
+    pinMode(GPIO_PIN_RELAY_1 , OUTPUT);
+    pinMode(GPIO_PIN_RELAY_2 , OUTPUT);
+    pinMode(GPIO_PIN_RELAY_3 , OUTPUT);
+    pinMode(GPIO_PIN_RELAY_4 , OUTPUT);
+
     _ms = millis();
 }
 
@@ -364,9 +371,9 @@ void RULES_TaskRun(void)
                 case 2:
                     GPIO_WRITE(GPIO_PIN_RELAY_3, relay[n] == RELAY_ON ? true : false);
                     break;
-                case 3:
+               /* case 3:
                     GPIO_WRITE(GPIO_PIN_RELAY_4, relay[n] == RELAY_ON ? true : false);
-                    break;
+                    break;*/
                 default:
                     break;
                 }
@@ -374,6 +381,7 @@ void RULES_TaskRun(void)
                 sCtrl.previousRelayState[n] = relay[n];
             }
         }
+        
     }
 }
 

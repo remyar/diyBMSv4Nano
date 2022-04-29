@@ -19,5 +19,5 @@ void loop()
 {
     RTU_TaskRun();
     BMS_TaskRun();
-   // RULES_TaskRun();
+    RULES_TaskRun();
 }

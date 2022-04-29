@@ -69,10 +69,17 @@ void SETTINGS_Load(void)
     settings.totalNumberOfSeriesModules = settings.totalNumberOfSeriesModules == 0xFF ? 1 : settings.totalNumberOfSeriesModules;
 
     settings.BypassOverTempShutdown = EEPROM.read(2);
-    settings.BypassThresholdmV = EEPROM.read(3);
 
-    settings.BypassOverTempShutdown = settings.BypassOverTempShutdown < 1 ? 65 : settings.BypassOverTempShutdown;
+    UINT16UNION_t _v;
+    _v.bytes[0] = EEPROM.read(3);
+    _v.bytes[1] = EEPROM.read(4);
+    settings.BypassThresholdmV = _v.number;
+
+    settings.BypassOverTempShutdown = settings.BypassOverTempShutdown < 1 ? 6 : settings.BypassOverTempShutdown;
+    settings.BypassOverTempShutdown = settings.BypassOverTempShutdown == 0xFF ? 6 : settings.BypassOverTempShutdown;
+
     settings.BypassThresholdmV = settings.BypassThresholdmV < 1 ? 3000 : settings.BypassThresholdmV;
+    settings.BypassThresholdmV = settings.BypassThresholdmV == 0xFFFF ? 2500 : settings.BypassThresholdmV;
 
     for (int i = 0; i < RELAY_RULES; i++)
     {
@@ -94,6 +101,40 @@ void SETTINGS_Load(void)
         settings.rulerelaystate[i][1] = (RelayState)EEPROM.read(96 + (4 * i) + 1);
         settings.rulerelaystate[i][2] = (RelayState)EEPROM.read(96 + (4 * i) + 2);
         settings.rulerelaystate[i][3] = (RelayState)EEPROM.read(96 + (4 * i) + 3);
+
+        settings.rulerelaydefault[0] = (RelayState)EEPROM.read(16);
+        settings.rulerelaydefault[1] = (RelayState)EEPROM.read(16 + 1);
+        settings.rulerelaydefault[2] = (RelayState)EEPROM.read(16 + 2);
+        settings.rulerelaydefault[3] = (RelayState)EEPROM.read(16 + 3);
+
+    }
+
+    settings.rulevalue[ModuleOverVoltage] = settings.rulevalue[ModuleOverVoltage] < 0 ? 4150 : settings.rulevalue[ModuleOverVoltage];
+    settings.rulevalue[ModuleOverVoltage] = settings.rulevalue[ModuleOverVoltage] == 0xFFFFFFFF ? 4150 : settings.rulevalue[ModuleOverVoltage];
+
+    settings.rulevalue[ModuleUnderVoltage] = settings.rulevalue[ModuleUnderVoltage] < 0 ? 3000 : settings.rulevalue[ModuleUnderVoltage];
+    settings.rulevalue[ModuleUnderVoltage] = settings.rulevalue[ModuleUnderVoltage] == 0xFFFFFFFF ? 3000 : settings.rulevalue[ModuleUnderVoltage];
+
+    settings.rulevalue[ModuleOverTemperatureInternal] = settings.rulevalue[ModuleOverTemperatureInternal] < 0 ? 60 : settings.rulevalue[ModuleOverTemperatureInternal];
+    settings.rulevalue[ModuleOverTemperatureInternal] = settings.rulevalue[ModuleOverTemperatureInternal] == 0xFFFFFFFF ? 60 : settings.rulevalue[ModuleOverTemperatureInternal];
+
+    settings.rulevalue[ModuleUnderTemperatureInternal] = settings.rulevalue[ModuleUnderTemperatureInternal] < 0 ? 50 : settings.rulevalue[ModuleUnderTemperatureInternal];
+    settings.rulevalue[ModuleUnderTemperatureInternal] = settings.rulevalue[ModuleUnderTemperatureInternal] == 0xFFFFFFFF ? 50 : settings.rulevalue[ModuleUnderTemperatureInternal];
+
+    settings.rulevalue[ModuleOverTemperatureExternal] = settings.rulevalue[ModuleOverTemperatureExternal] < 0 ? 55 : settings.rulevalue[ModuleOverTemperatureExternal];
+    settings.rulevalue[ModuleOverTemperatureExternal] = settings.rulevalue[ModuleOverTemperatureExternal] == 0xFFFFFFFF ? 55 : settings.rulevalue[ModuleOverTemperatureExternal];
+
+    settings.rulevalue[ModuleUnderTemperatureExternal] = settings.rulevalue[ModuleUnderTemperatureExternal] < 0 ? 5 : settings.rulevalue[ModuleUnderTemperatureExternal];
+    settings.rulevalue[ModuleUnderTemperatureExternal] = settings.rulevalue[ModuleUnderTemperatureExternal] == 0xFFFFFFFF ? 5 : settings.rulevalue[ModuleUnderTemperatureExternal];
+
+    settings.rulevalue[BankOverVoltage] = settings.rulevalue[BankOverVoltage] < 0 ? 4200 : settings.rulevalue[BankOverVoltage];
+    settings.rulevalue[BankOverVoltage] = settings.rulevalue[BankOverVoltage] == 0xFFFFFFFF ? 4200  : settings.rulevalue[BankOverVoltage];
+
+    settings.rulevalue[BankUnderVoltage] = settings.rulevalue[BankUnderVoltage] < 0 ? 3000 : settings.rulevalue[BankUnderVoltage];
+    settings.rulevalue[BankUnderVoltage] = settings.rulevalue[BankUnderVoltage] == 0xFFFFFFFF ? 3000  : settings.rulevalue[BankUnderVoltage];
+
+    for (int i = 0; i < RELAY_RULES; i++){
+        settings.rulehysteresis[i] = settings.rulehysteresis[i] == 0xFFFFFFFF ? settings.rulevalue[i] : settings.rulehysteresis[i];
     }
 
 }

@@ -78,7 +78,6 @@ static unsigned long _ms = millis();
 //---                                        Partagees                                         ---//
 //------------------------------------------------------------------------------------------------//
 String _sCmd;
-String _cmdToSend = "";
 
 //--------------------------------------------------------------------------------------------------
 // FONCTION    : KEYBOARD_Init
@@ -90,61 +89,84 @@ void _initRxBuffer(void)
     _sCmd = "";
 }
 
-void _initTxBuffer(void)
+void _deleteFromChar(String del)
 {
-    _cmdToSend = "";
-}
-
-String _deleteFromChar(String cmd, String del)
-{
-    String result = cmd;
-    while (result.startsWith(del) == false)
+    while (_sCmd.startsWith(del) == false)
     {
-        result.remove(0, 1);
+        _sCmd.remove(0, 1);
     }
-    result.remove(0, 1);
-    return result;
+    _sCmd.remove(0, 1);
 }
 
 void _processCommand(String cmd)
 {
-    _initTxBuffer();
-
     while (_sCmd.startsWith("[") == false)
     {
         _sCmd.remove(0, 1);
     }
 
+Serial.print(_sCmd);
+
     if (_sCmd.startsWith("[") == true)
     {
         _sCmd.remove(0, 1);
+
         if (_sCmd.startsWith("W") == true)
         {
             _sCmd.remove(0, 1);
+
             if (_sCmd.startsWith("CS") == true)
             {
                 _sCmd.remove(0, 2);
                 unsigned int cmiIdx = _sCmd.toInt();
-                Serial.println(_sCmd.toInt());
                 if (cmiIdx == 255)
                 {
-                    _sCmd = _deleteFromChar(_sCmd, ":");
+                    _deleteFromChar(":");
                     SETTINGS_SetTotalNumberOfBanks(_sCmd.toInt());
-                    Serial.println(_sCmd.toInt());
-                    _sCmd = _deleteFromChar(_sCmd, ":");
+                    _deleteFromChar(":");
                     SETTINGS_SetTotalNumberOfSeriesModules(_sCmd.toInt());
-                    Serial.println(_sCmd.toInt());
-                    _sCmd = _deleteFromChar(_sCmd, ":");
+                    _deleteFromChar(":");
                     SETTINGS_SetBypassOverTempShutdown(_sCmd.toInt());
-                    Serial.println(_sCmd.toInt());
-                    _sCmd = _deleteFromChar(_sCmd, ":");
+                    _deleteFromChar(":");
                     SETTINGS_SetBypassThresholdmV(_sCmd.toInt());
-                    Serial.println(_sCmd.toInt());
+
                     BMS_SendGlobalConfig();
                 }
                 else
                 {
                 }
+            }
+            else if (_sCmd.startsWith("CR") == true)
+            {
+                //-- controler rules
+                _sCmd.remove(0, 2);
+                unsigned int cmiIdx = _sCmd.toInt();
+
+                _deleteFromChar(":");
+                SETTINGS_SetRuleValue(cmiIdx, _sCmd.toInt());
+
+                _deleteFromChar(":");
+                SETTINGS_SetRuleHysteresis(cmiIdx, _sCmd.toInt());
+
+                uint8_t _r[4];
+                for (uint8_t i = 0; i < RELAY_TOTAL; i++)
+                {
+                    _deleteFromChar(":");
+                    _r[i] = _sCmd.toInt();
+                }
+
+                SETTINGS_SetRelayState(cmiIdx, _r[0], _r[1], _r[2], _r[3]);
+            }
+            else if (_sCmd.startsWith("RS") == true)
+            {
+                _sCmd.remove(0, 2);
+                uint8_t _r[4];
+                for (uint8_t i = 0; i < RELAY_TOTAL; i++)
+                {
+                    _r[i] = _sCmd.toInt();
+                    _deleteFromChar(":");
+                }
+                SETTINGS_SetRelayDefaultState(_r[0], _r[1], _r[2], _r[3]);
             }
         }
         else if (_sCmd.startsWith("R") == true)
@@ -155,7 +177,7 @@ void _processCommand(String cmd)
                 _sCmd.remove(0, 2);
                 unsigned int cmiIdx = _sCmd.toInt();
                 CellModuleInfo *cmi = BMS_GetCMI(cmiIdx);
-                Serial.print("[RVS");
+                /*Serial.print("[RVS");
                 Serial.print(cmiIdx);
                 Serial.print(":");
                 Serial.print(cmi->valid);
@@ -179,20 +201,13 @@ void _processCommand(String cmd)
                 Serial.print(cmi->PacketReceivedCount);
                 Serial.print(":");
                 Serial.print(cmi->BalanceCurrentCount);
-                Serial.print("]");
+                Serial.print("]");*/
             }
         }
         else if (_sCmd.startsWith("ID") == true)
         {
-            SERIAL_PrintString(_sCmd);
-
             _sCmd.remove(0, 2);
             unsigned int cmiIdx = _sCmd.toInt();
-
-            SERIAL_PrintString(_sCmd);
-
-            SERIAL_PrintString(String(cmiIdx));
-            
             BMS_SendIdentify(cmiIdx);
         }
 
@@ -208,17 +223,21 @@ void _processCommand(String cmd)
 
 void RTU_TaskInit(void)
 {
-    /* Serial.begin(9600);
-
-     pinMode(4, OUTPUT);
-     digitalWrite(4, LOW);*/
-
     _initRxBuffer();
-    _initTxBuffer();
 }
 
 void RTU_TaskRun(void)
 {
+    if (SERIAL_Available())
+    {
+        _sCmd += (char)SERIAL_Getc();
+
+        if (_sCmd.startsWith("[") == false)
+        {
+            _initRxBuffer();
+        }
+    }
+
     if ((millis() - _ms) >= 1000 && _sCmd.length() == 0)
     {
         for (int i = 0; i < (settings.totalNumberOfSeriesModules * settings.totalNumberOfBanks); i++)
@@ -250,27 +269,21 @@ void RTU_TaskRun(void)
             Serial.print(cmi->BalanceCurrentCount);
             Serial.print("]");
         }
-        _ms = millis();
-    }
 
-    if (SERIAL_Available())
-    {
-        _sCmd += (char)SERIAL_Getc();
-
-        if (_sCmd.startsWith("[") == false)
-        {
-            _initRxBuffer();
+        Serial.print("[RCVS");
+        s_CONTROLER * sCtrl = RULES_GetControllerPtr();
+        for ( int i = 0 ; i < RELAY_RULES ; i++ ){
+            Serial.print(sCtrl->rule_outcome[i]);
+            if ( i < (RELAY_RULES -1) ){
+                Serial.print(":");
+            }
         }
+        Serial.print("]");
+        _ms = millis();
     }
 
     if (_sCmd.endsWith("]"))
     {
         _processCommand(_sCmd);
-        // _initRxBuffer();
-        if (_cmdToSend.length() > 0)
-        {
-            SERIAL_PrintString(_cmdToSend);
-            _initTxBuffer();
-        }
     }
 }

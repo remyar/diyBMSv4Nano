@@ -12,7 +12,7 @@
 #define DIYBMS_DEFINES_H_
 
 // Total number of cells a single controler can handle (memory limitation)
-#define maximum_controller_cell_modules 16
+#define maximum_controller_cell_modules 14
 
 // Maximum of 16 cell modules (don't change this!) number of cells to process in a single packet of data
 #define maximum_cell_modules_per_packet 16
@@ -22,7 +22,7 @@
 #define maximum_number_of_banks 1
 
 // Number of relays on board (4)
-#define RELAY_TOTAL 4
+#define RELAY_TOTAL 3
 
 typedef union
 {
@@ -141,6 +141,8 @@ enum Rule : uint8_t
     ModuleUnderTemperatureExternal = 5,
     BankOverVoltage = 6,
     BankUnderVoltage = 7,
+  /*  Timer2 = 8,
+    Timer1 = 9,
     /*  ModuleUnderTemperatureExternal = 8,
       CurrentMonitorOverVoltage = 9,
       CurrentMonitorUnderVoltage = 10,
