@@ -101,13 +101,12 @@ void SETTINGS_Load(void)
         settings.rulerelaystate[i][1] = (RelayState)EEPROM.read(96 + (4 * i) + 1);
         settings.rulerelaystate[i][2] = (RelayState)EEPROM.read(96 + (4 * i) + 2);
         settings.rulerelaystate[i][3] = (RelayState)EEPROM.read(96 + (4 * i) + 3);
-
-        settings.rulerelaydefault[0] = (RelayState)EEPROM.read(16);
-        settings.rulerelaydefault[1] = (RelayState)EEPROM.read(16 + 1);
-        settings.rulerelaydefault[2] = (RelayState)EEPROM.read(16 + 2);
-        settings.rulerelaydefault[3] = (RelayState)EEPROM.read(16 + 3);
-
     }
+
+    settings.rulerelaydefault[0] = (RelayState)EEPROM.read(16);
+    settings.rulerelaydefault[1] = (RelayState)EEPROM.read(16 + 1);
+    settings.rulerelaydefault[2] = (RelayState)EEPROM.read(16 + 2);
+    settings.rulerelaydefault[3] = (RelayState)EEPROM.read(16 + 3);
 
     settings.rulevalue[ModuleOverVoltage] = settings.rulevalue[ModuleOverVoltage] < 0 ? 4150 : settings.rulevalue[ModuleOverVoltage];
     settings.rulevalue[ModuleOverVoltage] = settings.rulevalue[ModuleOverVoltage] == 0xFFFFFFFF ? 4150 : settings.rulevalue[ModuleOverVoltage];

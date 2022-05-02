@@ -105,8 +105,6 @@ void _processCommand(String cmd)
         _sCmd.remove(0, 1);
     }
 
-Serial.print(_sCmd);
-
     if (_sCmd.startsWith("[") == true)
     {
         _sCmd.remove(0, 1);
@@ -172,36 +170,42 @@ Serial.print(_sCmd);
         else if (_sCmd.startsWith("R") == true)
         {
             _sCmd.remove(0, 1);
-            if (_sCmd.startsWith("VS") == true)
+            if (_sCmd.startsWith("CONF") == true)
             {
-                _sCmd.remove(0, 2);
-                unsigned int cmiIdx = _sCmd.toInt();
-                CellModuleInfo *cmi = BMS_GetCMI(cmiIdx);
-                /*Serial.print("[RVS");
-                Serial.print(cmiIdx);
+                _sCmd.remove(0, 4);
+                Serial.print("[RCONF");
+                Serial.print(settings.totalNumberOfBanks);
                 Serial.print(":");
-                Serial.print(cmi->valid);
+                Serial.print(settings.totalNumberOfSeriesModules);
                 Serial.print(":");
-                Serial.print(cmi->voltagemV);
+                Serial.print(settings.BypassOverTempShutdown);
                 Serial.print(":");
-                Serial.print(cmi->voltagemVMin);
+                Serial.print(settings.BypassThresholdmV);
+                Serial.print("]");
+            }else if (_sCmd.startsWith("RULES") == true){
+                _sCmd.remove(0, 5);
+                
+                Serial.print("[RRULES");
+                for ( int i = 0 ; i < RELAY_RULES ; i++ ){
+                    Serial.print(settings.rulevalue[i]);
+                    Serial.print(":");
+                    Serial.print(settings.rulehysteresis[i]);
+                    Serial.print(":");
+                    for (int8_t y = 0; y < RELAY_TOTAL; y++){
+                        Serial.print(settings.rulerelaystate[i][y]);
+                        Serial.print(":");
+                    }
+                }
+
+                Serial.print(settings.rulerelaydefault[0]);
                 Serial.print(":");
-                Serial.print(cmi->voltagemVMax);
+                Serial.print(settings.rulerelaydefault[1]);
                 Serial.print(":");
-                Serial.print(cmi->internalTemp);
+                Serial.print(settings.rulerelaydefault[2]);
                 Serial.print(":");
-                Serial.print(cmi->externalTemp);
-                Serial.print(":");
-                Serial.print(cmi->inBypass);
-                Serial.print(":");
-                Serial.print(cmi->PWMValue);
-                Serial.print(":");
-                Serial.print(cmi->badPacketCount);
-                Serial.print(":");
-                Serial.print(cmi->PacketReceivedCount);
-                Serial.print(":");
-                Serial.print(cmi->BalanceCurrentCount);
-                Serial.print("]");*/
+                Serial.print(settings.rulerelaydefault[3]);
+
+                Serial.print("]");
             }
         }
         else if (_sCmd.startsWith("ID") == true)
@@ -271,10 +275,12 @@ void RTU_TaskRun(void)
         }
 
         Serial.print("[RCVS");
-        s_CONTROLER * sCtrl = RULES_GetControllerPtr();
-        for ( int i = 0 ; i < RELAY_RULES ; i++ ){
+        s_CONTROLER *sCtrl = RULES_GetControllerPtr();
+        for (int i = 0; i < RELAY_RULES; i++)
+        {
             Serial.print(sCtrl->rule_outcome[i]);
-            if ( i < (RELAY_RULES -1) ){
+            if (i < (RELAY_RULES - 1))
+            {
                 Serial.print(":");
             }
         }
