@@ -14,7 +14,7 @@
 #include "../Low-Level/board.h"
 #include "./rules.h"
 #include "../settings/settings.h"
-
+#include "../time/myTime.h"
 //================================================================================================//
 //                                            DEFINES                                             //
 //================================================================================================//
@@ -53,6 +53,10 @@ static uint8_t zeroVoltageModuleCount = 0;
 //------------------------------------------------------------------------------------------------//
 void _RunRules(uint32_t *value, uint32_t *hysteresisvalue, bool emergencyStop, uint16_t mins)
 {
+    //Timer 1 and Timer 2
+    sCtrl.rule_outcome[Timer1] = (mins >= value[Timer1] && mins <= hysteresisvalue[Timer1]);
+    sCtrl.rule_outcome[Timer2] = (mins >= value[Timer2] && mins <= hysteresisvalue[Timer2]);
+
     // At least 1 module is zero volt - not a problem whilst we are in stabilizing start up mode
     if (zeroVoltageModuleCount > 0)
     {
@@ -321,7 +325,7 @@ void RULES_TaskRun(void)
             _ProcessBank(bank);
         }
 
-        _RunRules(settings.rulevalue, settings.rulehysteresis, false, 0);
+        _RunRules(settings.rulevalue, settings.rulehysteresis, false, TIME_getMinutesSinceMidnight());
 
         RelayState relay[RELAY_TOTAL];
 

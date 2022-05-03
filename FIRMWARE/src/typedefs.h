@@ -141,7 +141,7 @@ enum Rule : uint8_t
     ModuleUnderTemperatureExternal = 5,
     BankOverVoltage = 6,
     BankUnderVoltage = 7,
-  /*  Timer2 = 8,
+    Timer2 = 8,
     Timer1 = 9,
     /*  ModuleUnderTemperatureExternal = 8,
       CurrentMonitorOverVoltage = 9,

@@ -15,6 +15,7 @@
 #include "../Low-Level/Serial.h"
 #include "./rtu.h"
 #include "../bms/bms.h"
+#include "../time/myTime.h"
 #include "../rules/rules.h"
 #include "../settings/settings.h"
 
@@ -49,7 +50,8 @@ enum
 };
 
 static unsigned long _ms = millis();
-
+static unsigned long _ms2 = millis();
+static bool timeIsOver = true;
 //================================================================================================//
 //                                      STRUCTURES ET UNIONS                                      //
 //================================================================================================//
@@ -162,9 +164,17 @@ void _processCommand(String cmd)
                 for (uint8_t i = 0; i < RELAY_TOTAL; i++)
                 {
                     _r[i] = _sCmd.toInt();
-                    _deleteFromChar(":");
+                    if (i < (RELAY_TOTAL - 1))
+                    {
+                        _deleteFromChar(":");
+                    }
                 }
                 SETTINGS_SetRelayDefaultState(_r[0], _r[1], _r[2], _r[3]);
+            }
+            else if (_sCmd.startsWith("TIME") == true)
+            {
+                _sCmd.remove(0, 4);
+                TIME_setMinutesSinceMidnight(_sCmd.toInt());
             }
         }
         else if (_sCmd.startsWith("R") == true)
@@ -182,16 +192,20 @@ void _processCommand(String cmd)
                 Serial.print(":");
                 Serial.print(settings.BypassThresholdmV);
                 Serial.print("]");
-            }else if (_sCmd.startsWith("RULES") == true){
+            }
+            else if (_sCmd.startsWith("RULES") == true)
+            {
                 _sCmd.remove(0, 5);
-                
+
                 Serial.print("[RRULES");
-                for ( int i = 0 ; i < RELAY_RULES ; i++ ){
+                for (int i = 0; i < RELAY_RULES; i++)
+                {
                     Serial.print(settings.rulevalue[i]);
                     Serial.print(":");
                     Serial.print(settings.rulehysteresis[i]);
                     Serial.print(":");
-                    for (int8_t y = 0; y < RELAY_TOTAL; y++){
+                    for (int8_t y = 0; y < RELAY_TOTAL; y++)
+                    {
                         Serial.print(settings.rulerelaystate[i][y]);
                         Serial.print(":");
                     }
@@ -202,8 +216,6 @@ void _processCommand(String cmd)
                 Serial.print(settings.rulerelaydefault[1]);
                 Serial.print(":");
                 Serial.print(settings.rulerelaydefault[2]);
-                Serial.print(":");
-                Serial.print(settings.rulerelaydefault[3]);
 
                 Serial.print("]");
             }
@@ -228,6 +240,8 @@ void _processCommand(String cmd)
 void RTU_TaskInit(void)
 {
     _initRxBuffer();
+    _ms2 = millis();
+    _ms = millis();
 }
 
 void RTU_TaskRun(void)
@@ -240,6 +254,12 @@ void RTU_TaskRun(void)
         {
             _initRxBuffer();
         }
+    }
+    if ((((millis() - _ms2) >= 60000) || (timeIsOver == true)) && _sCmd.length() == 0)
+    {
+        _ms2 = millis();
+        timeIsOver = false;
+        Serial.print("[GTIME]");
     }
 
     if ((millis() - _ms) >= 1000 && _sCmd.length() == 0)
