@@ -1,30 +1,32 @@
 Archive member included to satisfy reference by file (symbol)
 
-.pio\build\nanoatmega328\lib122\libSoftwareSerial.a(SoftwareSerial.cpp.o)
-                              .pio\build\nanoatmega328\src\bms\bms.cpp.o (symbol from plugin) (_ZN14SoftwareSerialC1Ehhb)
-.pio\build\nanoatmega328\lib7a4\libQueue.a(cppQueue.cpp.o)
-                              .pio\build\nanoatmega328\src\bms\bms.cpp.o (symbol from plugin) (_ZN8cppQueueC1Ejj16enumcppQueueTypeb)
-.pio\build\nanoatmega328\libdad\libSerialEncoder.a(SerialEncoder.cpp.o)
-                              .pio\build\nanoatmega328\src\bms\bms.cpp.o (symbol from plugin) (_ZN13SerialEncoder16checkInputStreamEv)
-.pio\build\nanoatmega328\lib645\libcrc16.a(crc16.cpp.o)
-                              .pio\build\nanoatmega328\src\bms\PacketReceiveProcessor.cpp.o (symbol from plugin) (_ZN5CRC1614CalculateArrayEPhj)
-.pio\build\nanoatmega328\libFrameworkArduino.a(HardwareSerial.cpp.o)
-                              .pio\build\nanoatmega328\src\Low-Level\Serial.cpp.o (symbol from plugin) (_ZN14HardwareSerial9availableEv)
-.pio\build\nanoatmega328\libFrameworkArduino.a(HardwareSerial0.cpp.o)
-                              .pio\build\nanoatmega328\src\Low-Level\Serial.cpp.o (symbol from plugin) (Serial)
-.pio\build\nanoatmega328\libFrameworkArduino.a(Print.cpp.o)
+.pio\build\batt_12v\lib942\libSoftwareSerial.a(SoftwareSerial.cpp.o)
+                              .pio\build\batt_12v\src\bms\bms.cpp.o (symbol from plugin) (_ZN14SoftwareSerialC1Ehhb)
+.pio\build\batt_12v\lib9b3\libQueue.a(cppQueue.cpp.o)
+                              .pio\build\batt_12v\src\bms\bms.cpp.o (symbol from plugin) (_ZN8cppQueueC1Ejj16enumcppQueueTypeb)
+.pio\build\batt_12v\lib96f\libSerialEncoder.a(SerialEncoder.cpp.o)
+                              .pio\build\batt_12v\src\bms\bms.cpp.o (symbol from plugin) (_ZN13SerialEncoder16checkInputStreamEv)
+.pio\build\batt_12v\lib645\libcrc16.a(crc16.cpp.o)
+                              .pio\build\batt_12v\src\bms\PacketReceiveProcessor.cpp.o (symbol from plugin) (_ZN5CRC1614CalculateArrayEPhj)
+.pio\build\batt_12v\libFrameworkArduino.a(HardwareSerial.cpp.o)
+                              .pio\build\batt_12v\src\Low-Level\Serial.cpp.o (symbol from plugin) (_ZN14HardwareSerial9availableEv)
+.pio\build\batt_12v\libFrameworkArduino.a(HardwareSerial0.cpp.o)
+                              .pio\build\batt_12v\src\Low-Level\Serial.cpp.o (symbol from plugin) (Serial)
+.pio\build\batt_12v\libFrameworkArduino.a(Print.cpp.o)
                               SoftwareSerial.cpp.o (symbol from plugin) (_ZN5Print5writeEPKhj)
-.pio\build\nanoatmega328\libFrameworkArduino.a(WString.cpp.o)
-                              .pio\build\nanoatmega328\src\rtu\rtu.cpp.o (symbol from plugin) (_ZN6StringD1Ev)
-.pio\build\nanoatmega328\libFrameworkArduino.a(abi.cpp.o)
+.pio\build\batt_12v\libFrameworkArduino.a(WString.cpp.o)
+                              .pio\build\batt_12v\src\rtu\rtu.cpp.o (symbol from plugin) (_ZN6StringD1Ev)
+.pio\build\batt_12v\libFrameworkArduino.a(abi.cpp.o)
                               Print.cpp.o (symbol from plugin) (__cxa_pure_virtual)
-.pio\build\nanoatmega328\libFrameworkArduino.a(main.cpp.o)
+.pio\build\batt_12v\libFrameworkArduino.a(main.cpp.o)
                               c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o (main)
-.pio\build\nanoatmega328\libFrameworkArduino.a(wiring.c.o)
-                              .pio\build\nanoatmega328\src\bms\PacketReceiveProcessor.cpp.o (symbol from plugin) (millis)
-.pio\build\nanoatmega328\libFrameworkArduino.a(wiring_digital.c.o)
-                              .pio\build\nanoatmega328\src\Low-Level\board.cpp.o (symbol from plugin) (pinMode)
-.pio\build\nanoatmega328\libFrameworkArduino.a(hooks.c.o)
+.pio\build\batt_12v\libFrameworkArduino.a(wiring.c.o)
+                              .pio\build\batt_12v\src\bms\PacketReceiveProcessor.cpp.o (symbol from plugin) (millis)
+.pio\build\batt_12v\libFrameworkArduino.a(wiring_analog.c.o)
+                              .pio\build\batt_12v\src\rules\rules.cpp.o (symbol from plugin) (analogWrite)
+.pio\build\batt_12v\libFrameworkArduino.a(wiring_digital.c.o)
+                              .pio\build\batt_12v\src\Low-Level\board.cpp.o (symbol from plugin) (pinMode)
+.pio\build\batt_12v\libFrameworkArduino.a(hooks.c.o)
                               wiring.c.o (symbol from plugin) (yield)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
                               c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o (exit)
@@ -97,9 +99,9 @@ c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_zero.o)
                               c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(mulsf3x.o) (__fp_szero)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libatmega328p.a(eerd_byte.o)
-                              .pio\build\nanoatmega328\src\settings\settings.cpp.o (symbol from plugin) (eeprom_read_byte)
+                              .pio\build\batt_12v\src\settings\settings.cpp.o (symbol from plugin) (eeprom_read_byte)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libatmega328p.a(eewr_byte.o)
-                              .pio\build\nanoatmega328\src\settings\settings.cpp.o (symbol from plugin) (eeprom_write_byte)
+                              .pio\build\batt_12v\src\settings\settings.cpp.o (symbol from plugin) (eeprom_write_byte)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_clear_bss.o)
                               c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(errno.o) (__do_clear_bss)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_muluhisi3.o)
@@ -111,33 +113,39 @@ c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_umulhisi3.o)
                               c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_muluhisi3.o) (__umulhisi3)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_divmodhi4.o)
-                              C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o (__divmodhi4)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (__divmodhi4)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_udivmodsi4.o)
-                              C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o (__udivmodsi4)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (__udivmodsi4)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_tablejump2.o)
-                              C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o (__tablejump2__)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (__tablejump2__)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_copy_data.o)
-                              C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o (__do_copy_data)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (__do_copy_data)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_ctors.o)
-                              C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o (__do_global_ctors)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (__do_global_ctors)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_dtors.o)
-                              C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o (__do_global_dtors)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (__do_global_dtors)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_udivmodhi4.o)
                               c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_divmodhi4.o) (__udivmodhi4)
+c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3.o)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (__divsf3)
+c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o)
+                              c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3.o) (__divsf3x)
+c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fixunssfsi.o)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (__fixunssfsi)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(malloc.o)
-                              C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o (malloc)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (malloc)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(realloc.o)
-                              C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o (realloc)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (realloc)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(memcpy.o)
-                              C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o (memcpy)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (memcpy)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strcmp.o)
-                              C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o (strcmp)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (strcmp)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strcpy.o)
-                              C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o (strcpy)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (strcpy)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strncmp.o)
-                              C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o (strncmp)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (strncmp)
 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strncpy.o)
-                              C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o (strncpy)
+                              C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o (strncpy)
 
 Allocating common symbols
 Common symbol       size              file
@@ -150,25 +158,25 @@ Discarded input sections
 
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
- .text          0x00000000        0x0 .pio\build\nanoatmega328\src\Low-Level\Serial.cpp.o (symbol from plugin)
+ .text          0x00000000        0x0 .pio\build\batt_12v\src\Low-Level\Serial.cpp.o (symbol from plugin)
  .gnu.linkonce.t._ZN14HardwareSerial5beginEm
-                0x00000000        0x0 .pio\build\nanoatmega328\src\Low-Level\Serial.cpp.o (symbol from plugin)
- .avr.prop      0x00000000       0x1f C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o
- .text          0x00000000        0x0 .pio\build\nanoatmega328\src\Low-Level\board.cpp.o (symbol from plugin)
- .text          0x00000000        0x0 .pio\build\nanoatmega328\src\bms\PacketReceiveProcessor.cpp.o (symbol from plugin)
- .text          0x00000000        0x0 .pio\build\nanoatmega328\src\bms\PacketRequestGenerator.cpp.o (symbol from plugin)
- .text          0x00000000        0x0 .pio\build\nanoatmega328\src\bms\bms.cpp.o (symbol from plugin)
+                0x00000000        0x0 .pio\build\batt_12v\src\Low-Level\Serial.cpp.o (symbol from plugin)
+ .avr.prop      0x00000000       0x1f C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o
+ .text          0x00000000        0x0 .pio\build\batt_12v\src\Low-Level\board.cpp.o (symbol from plugin)
+ .text          0x00000000        0x0 .pio\build\batt_12v\src\bms\PacketReceiveProcessor.cpp.o (symbol from plugin)
+ .text          0x00000000        0x0 .pio\build\batt_12v\src\bms\PacketRequestGenerator.cpp.o (symbol from plugin)
+ .text          0x00000000        0x0 .pio\build\batt_12v\src\bms\bms.cpp.o (symbol from plugin)
  .gnu.linkonce.t._ZN22PacketReceiveProcessorC5Ev
-                0x00000000        0x0 .pio\build\nanoatmega328\src\bms\bms.cpp.o (symbol from plugin)
- .text          0x00000000        0x0 .pio\build\nanoatmega328\src\main.cpp.o (symbol from plugin)
- .text          0x00000000        0x0 .pio\build\nanoatmega328\src\rtu\rtu.cpp.o (symbol from plugin)
- .text          0x00000000        0x0 .pio\build\nanoatmega328\src\rules\rules.cpp.o (symbol from plugin)
- .text          0x00000000        0x0 .pio\build\nanoatmega328\src\settings\settings.cpp.o (symbol from plugin)
+                0x00000000        0x0 .pio\build\batt_12v\src\bms\bms.cpp.o (symbol from plugin)
+ .text          0x00000000        0x0 .pio\build\batt_12v\src\main.cpp.o (symbol from plugin)
+ .text          0x00000000        0x0 .pio\build\batt_12v\src\rtu\rtu.cpp.o (symbol from plugin)
+ .text          0x00000000        0x0 .pio\build\batt_12v\src\rules\rules.cpp.o (symbol from plugin)
+ .text          0x00000000        0x0 .pio\build\batt_12v\src\settings\settings.cpp.o (symbol from plugin)
  .gnu.linkonce.t._ZNK5EERefdeEv
-                0x00000000        0x0 .pio\build\nanoatmega328\src\settings\settings.cpp.o (symbol from plugin)
+                0x00000000        0x0 .pio\build\batt_12v\src\settings\settings.cpp.o (symbol from plugin)
  .gnu.linkonce.t._ZN5EERefaSEh
-                0x00000000        0x0 .pio\build\nanoatmega328\src\settings\settings.cpp.o (symbol from plugin)
- .text          0x00000000        0x0 .pio\build\nanoatmega328\src\time\myTime.cpp.o (symbol from plugin)
+                0x00000000        0x0 .pio\build\batt_12v\src\settings\settings.cpp.o (symbol from plugin)
+ .text          0x00000000        0x0 .pio\build\batt_12v\src\time\myTime.cpp.o (symbol from plugin)
  .text          0x00000000        0x0 SoftwareSerial.cpp.o (symbol from plugin)
  .gnu.linkonce.t._ZN5Print17availableForWriteEv
                 0x00000000        0x0 SoftwareSerial.cpp.o (symbol from plugin)
@@ -206,6 +214,7 @@ Discarded input sections
  .text          0x00000000        0x0 abi.cpp.o (symbol from plugin)
  .text          0x00000000        0x0 main.cpp.o (symbol from plugin)
  .text          0x00000000        0x0 wiring.c.o (symbol from plugin)
+ .text          0x00000000        0x0 wiring_analog.c.o (symbol from plugin)
  .text          0x00000000        0x0 wiring_digital.c.o (symbol from plugin)
  .text          0x00000000        0x0 hooks.c.o (symbol from plugin)
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
@@ -333,8 +342,6 @@ Discarded input sections
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(floatsisf.o)
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(floatsisf.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(floatsisf.o)
- .text.avr-libc.fplib
-                0x00000000       0x7a c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(floatsisf.o)
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_cmp.o)
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_cmp.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_cmp.o)
@@ -343,13 +350,9 @@ Discarded input sections
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(mulsf3.o)
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(mulsf3.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(mulsf3.o)
- .text.avr-libc.fplib
-                0x00000000        0x8 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(mulsf3.o)
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(mulsf3x.o)
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(mulsf3x.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(mulsf3x.o)
- .text.avr-libc.fplib
-                0x00000000       0xd2 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(mulsf3x.o)
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(errno.o)
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(errno.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(errno.o)
@@ -363,38 +366,24 @@ Discarded input sections
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_inf.o)
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_inf.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_inf.o)
- .text.avr-libc.fplib
-                0x00000000        0xc c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_inf.o)
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_nan.o)
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_nan.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_nan.o)
- .text.avr-libc.fplib
-                0x00000000        0x6 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_nan.o)
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_pscA.o)
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_pscA.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_pscA.o)
- .text.avr-libc.fplib
-                0x00000000        0xe c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_pscA.o)
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_pscB.o)
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_pscB.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_pscB.o)
- .text.avr-libc.fplib
-                0x00000000        0xe c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_pscB.o)
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_round.o)
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_round.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_round.o)
- .text.avr-libc.fplib
-                0x00000000       0x22 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_round.o)
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_split3.o)
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_split3.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_split3.o)
- .text.avr-libc.fplib
-                0x00000000       0x44 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_split3.o)
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_zero.o)
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_zero.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_zero.o)
- .text.avr-libc.fplib
-                0x00000000        0xe c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_zero.o)
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libatmega328p.a(eerd_byte.o)
  .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libatmega328p.a(eerd_byte.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libatmega328p.a(eerd_byte.o)
@@ -592,6 +581,15 @@ Discarded input sections
                 0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_udivmodhi4.o)
  .text.libgcc.fixed
                 0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_udivmodhi4.o)
+ .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3.o)
+ .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3.o)
+ .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3.o)
+ .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o)
+ .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o)
+ .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o)
+ .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fixunssfsi.o)
+ .data          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fixunssfsi.o)
+ .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fixunssfsi.o)
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(malloc.o)
  .bss           0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(malloc.o)
  .text          0x00000000        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(realloc.o)
@@ -629,24 +627,24 @@ Linker script and memory map
 
 Address of section .data set to 0x800100
 LOAD c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
-LOAD .pio\build\nanoatmega328\src\Low-Level\Serial.cpp.o
-LOAD C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o
-LOAD .pio\build\nanoatmega328\src\Low-Level\board.cpp.o
-LOAD .pio\build\nanoatmega328\src\bms\PacketReceiveProcessor.cpp.o
-LOAD .pio\build\nanoatmega328\src\bms\PacketRequestGenerator.cpp.o
-LOAD .pio\build\nanoatmega328\src\bms\bms.cpp.o
-LOAD .pio\build\nanoatmega328\src\main.cpp.o
-LOAD .pio\build\nanoatmega328\src\rtu\rtu.cpp.o
-LOAD .pio\build\nanoatmega328\src\rules\rules.cpp.o
-LOAD .pio\build\nanoatmega328\src\settings\settings.cpp.o
-LOAD .pio\build\nanoatmega328\src\time\myTime.cpp.o
+LOAD .pio\build\batt_12v\src\Low-Level\Serial.cpp.o
+LOAD C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o
+LOAD .pio\build\batt_12v\src\Low-Level\board.cpp.o
+LOAD .pio\build\batt_12v\src\bms\PacketReceiveProcessor.cpp.o
+LOAD .pio\build\batt_12v\src\bms\PacketRequestGenerator.cpp.o
+LOAD .pio\build\batt_12v\src\bms\bms.cpp.o
+LOAD .pio\build\batt_12v\src\main.cpp.o
+LOAD .pio\build\batt_12v\src\rtu\rtu.cpp.o
+LOAD .pio\build\batt_12v\src\rules\rules.cpp.o
+LOAD .pio\build\batt_12v\src\settings\settings.cpp.o
+LOAD .pio\build\batt_12v\src\time\myTime.cpp.o
 START GROUP
-LOAD .pio\build\nanoatmega328\lib122\libSoftwareSerial.a
-LOAD .pio\build\nanoatmega328\lib7a4\libQueue.a
-LOAD .pio\build\nanoatmega328\libdad\libSerialEncoder.a
-LOAD .pio\build\nanoatmega328\lib645\libcrc16.a
-LOAD .pio\build\nanoatmega328\libFrameworkArduinoVariant.a
-LOAD .pio\build\nanoatmega328\libFrameworkArduino.a
+LOAD .pio\build\batt_12v\lib942\libSoftwareSerial.a
+LOAD .pio\build\batt_12v\lib9b3\libQueue.a
+LOAD .pio\build\batt_12v\lib96f\libSerialEncoder.a
+LOAD .pio\build\batt_12v\lib645\libcrc16.a
+LOAD .pio\build\batt_12v\libFrameworkArduinoVariant.a
+LOAD .pio\build\batt_12v\libFrameworkArduino.a
 END GROUP
 LOAD c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a
 LOAD c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a
@@ -754,7 +752,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x3ae4
+.text           0x00000000     0x4012
  *(.vectors)
  .vectors       0x00000000       0x68 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5/crtatmega328p.o
                 0x00000000                __vector_default
@@ -770,7 +768,7 @@ END GROUP
  *libprintf_flt.a:*(.progmem.data)
  *libc.a:*(.progmem.data)
  *(.progmem*)
- .progmem.data  0x00000068       0xf6 C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o
+ .progmem.data  0x00000068       0xf6 C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o
                 0x0000015e                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
@@ -778,11 +776,11 @@ END GROUP
  *(.lowtext*)
                 0x0000015e                __ctors_start = .
  *(.ctors)
- .ctors         0x0000015e        0x2 C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o
+ .ctors         0x0000015e        0x2 C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o
                 0x00000160                __ctors_end = .
                 0x00000160                __dtors_start = .
  *(.dtors)
- .dtors         0x00000160        0x2 C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o
+ .dtors         0x00000160        0x2 C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o
                 0x00000162                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
@@ -838,84 +836,128 @@ END GROUP
                 0x000001b2                __vector_14
                 0x000001b2                __vector_10
                 0x000001b2                __vector_20
- .text          0x000001b6      0xd7c C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o
-                0x00000c5a                __vector_16
-                0x00000cee                __vector_19
-                0x00000d3a                __vector_18
-                0x00000d9e                __vector_3
-                0x00000ea2                __vector_5
-                0x00000eea                __vector_4
-                0x00000f32                . = ALIGN (0x2)
+ .text          0x000001b6      0xdc6 C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o
+                0x00000ca4                __vector_16
+                0x00000d38                __vector_19
+                0x00000d84                __vector_18
+                0x00000de8                __vector_3
+                0x00000eec                __vector_5
+                0x00000f34                __vector_4
+                0x00000f7c                . = ALIGN (0x2)
  *(.text.*)
- .text.exit     0x00000f32       0x9c C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o
- .text.startup  0x00000fce     0x251a C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o
-                0x00001356                main
+ .text.exit     0x00000f7c       0x9c C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o
+ .text.startup  0x00001018     0x26c6 C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o
+                0x000013a0                main
  .text.avr-libc
-                0x000034e8       0x4e c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(atol.o)
-                0x000034e8                atol
+                0x000036de       0x4e c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(atol.o)
+                0x000036de                atol
  .text.avr-libc
-                0x00003536       0x2a c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(mulsi10.o)
-                0x00003536                __mulsi_const_10
+                0x0000372c       0x2a c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(mulsi10.o)
+                0x0000372c                __mulsi_const_10
+ .text.avr-libc.fplib
+                0x00003756       0x7a c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(floatsisf.o)
+                0x00003756                __floatunsisf
+                0x0000375a                __floatsisf
+ .text.avr-libc.fplib
+                0x000037d0        0x8 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(mulsf3.o)
+                0x000037d0                __mulsf3
+ .text.avr-libc.fplib
+                0x000037d8       0xd2 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(mulsf3x.o)
+                0x000037f6                __mulsf3x
+                0x000037fc                __mulsf3_pse
+ .text.avr-libc.fplib
+                0x000038aa        0xc c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_inf.o)
+                0x000038aa                __fp_inf
+ .text.avr-libc.fplib
+                0x000038b6        0x6 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_nan.o)
+                0x000038b6                __fp_nan
+ .text.avr-libc.fplib
+                0x000038bc        0xe c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_pscA.o)
+                0x000038bc                __fp_pscA
+ .text.avr-libc.fplib
+                0x000038ca        0xe c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_pscB.o)
+                0x000038ca                __fp_pscB
+ .text.avr-libc.fplib
+                0x000038d8       0x22 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_round.o)
+                0x000038d8                __fp_round
+ .text.avr-libc.fplib
+                0x000038fa       0x44 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_split3.o)
+                0x000038fa                __fp_split3
+                0x0000390a                __fp_splitA
+ .text.avr-libc.fplib
+                0x0000393e        0xe c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(fp_zero.o)
+                0x0000393e                __fp_zero
+                0x00003940                __fp_szero
  .text.avr-libc
-                0x00003560       0x10 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libatmega328p.a(eerd_byte.o)
-                0x00003560                eeprom_read_byte
+                0x0000394c       0x10 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libatmega328p.a(eerd_byte.o)
+                0x0000394c                eeprom_read_byte
  .text.avr-libc
-                0x00003570       0x1c c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libatmega328p.a(eewr_byte.o)
-                0x00003570                eeprom_write_byte
-                0x00003572                eeprom_write_r18
+                0x0000395c       0x1c c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libatmega328p.a(eewr_byte.o)
+                0x0000395c                eeprom_write_byte
+                0x0000395e                eeprom_write_r18
  .text.libgcc.prologue
-                0x0000358c       0x38 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
-                0x0000358c                __prologue_saves__
+                0x00003978       0x38 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_prologue.o)
+                0x00003978                __prologue_saves__
  .text.libgcc.prologue
-                0x000035c4       0x36 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
-                0x000035c4                __epilogue_restores__
+                0x000039b0       0x36 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_epilogue.o)
+                0x000039b0                __epilogue_restores__
  .text.libgcc.div
-                0x000035fa       0x28 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_divmodhi4.o)
-                0x000035fa                _div
-                0x000035fa                __divmodhi4
+                0x000039e6       0x28 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_divmodhi4.o)
+                0x000039e6                _div
+                0x000039e6                __divmodhi4
  .text.libgcc.div
-                0x00003622       0x44 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_udivmodsi4.o)
-                0x00003622                __udivmodsi4
- .text.libgcc   0x00003666        0xc c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_tablejump2.o)
-                0x00003666                __tablejump2__
+                0x00003a0e       0x44 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_udivmodsi4.o)
+                0x00003a0e                __udivmodsi4
+ .text.libgcc   0x00003a52        0xc c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_tablejump2.o)
+                0x00003a52                __tablejump2__
  .text.libgcc.div
-                0x00003672       0x28 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_udivmodhi4.o)
-                0x00003672                __udivmodhi4
+                0x00003a5e       0x28 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_udivmodhi4.o)
+                0x00003a5e                __udivmodhi4
+ .text.avr-libc.fplib
+                0x00003a86        0x8 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3.o)
+                0x00003a86                __divsf3
+ .text.avr-libc.fplib
+                0x00003a8e       0xdc c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(divsf3x.o)
+                0x00003aae                __divsf3x
+                0x00003ab4                __divsf3_pse
+ .text.avr-libc.fplib
+                0x00003b6a       0x5e c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libm.a(fixunssfsi.o)
+                0x00003b6a                __fixunssfsi
  .text.avr-libc
-                0x0000369a      0x24a c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(malloc.o)
-                0x0000369a                malloc
-                0x000037d2                free
+                0x00003bc8      0x24a c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(malloc.o)
+                0x00003bc8                malloc
+                0x00003d00                free
  .text.avr-libc
-                0x000038e4      0x17a c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(realloc.o)
-                0x000038e4                realloc
+                0x00003e12      0x17a c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(realloc.o)
+                0x00003e12                realloc
  .text.avr-libc
-                0x00003a5e       0x12 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(memcpy.o)
-                0x00003a5e                memcpy
+                0x00003f8c       0x12 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(memcpy.o)
+                0x00003f8c                memcpy
  .text.avr-libc
-                0x00003a70       0x12 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strcmp.o)
-                0x00003a70                strcmp
+                0x00003f9e       0x12 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strcmp.o)
+                0x00003f9e                strcmp
  .text.avr-libc
-                0x00003a82        0xe c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strcpy.o)
-                0x00003a82                strcpy
+                0x00003fb0        0xe c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strcpy.o)
+                0x00003fb0                strcpy
  .text.avr-libc
-                0x00003a90       0x1c c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strncmp.o)
-                0x00003a90                strncmp
+                0x00003fbe       0x1c c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strncmp.o)
+                0x00003fbe                strncmp
  .text.avr-libc
-                0x00003aac       0x1e c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strncpy.o)
-                0x00003aac                strncpy
-                0x00003aca                . = ALIGN (0x2)
+                0x00003fda       0x1e c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(strncpy.o)
+                0x00003fda                strncpy
+                0x00003ff8                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00003aca        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
-                0x00003aca                _exit
-                0x00003aca                exit
+ .fini9         0x00003ff8        0x0 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+                0x00003ff8                _exit
+                0x00003ff8                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
  *(.fini7)
  *(.fini7)
  *(.fini6)
- .fini6         0x00003aca       0x16 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_dtors.o)
-                0x00003aca                __do_global_dtors
+ .fini6         0x00003ff8       0x16 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_dtors.o)
+                0x00003ff8                __do_global_dtors
  *(.fini6)
  *(.fini5)
  *(.fini5)
@@ -928,14 +970,14 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00003ae0        0x4 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x0000400e        0x4 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00003ae4                _etext = .
+                0x00004012                _etext = .
 
-.data           0x00800100       0x74 load address 0x00003ae4
+.data           0x00800100       0x74 load address 0x00004012
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
- .data          0x00800100       0x10 C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o
+ .data          0x00800100       0x10 C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o
  .data          0x00800110        0x6 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(malloc.o)
                 0x00800110                __malloc_heap_end
                 0x00800112                __malloc_heap_start
@@ -943,10 +985,10 @@ END GROUP
  *(.data*)
  *(.gnu.linkonce.d*)
  *(.rodata)
- .rodata        0x00800116       0x24 C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o
+ .rodata        0x00800116       0x24 C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o
  *(.rodata*)
  .rodata.str1.1
-                0x0080013a       0x39 C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o
+                0x0080013a       0x39 C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o
                                  0x49 (size before relaxing)
  *(.gnu.linkonce.r*)
                 0x00800174                . = ALIGN (0x2)
@@ -957,15 +999,15 @@ END GROUP
 .bss            0x00800174      0x4dc
                 0x00800174                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x00800174      0x4d8 C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o
+ .bss           0x00800174      0x4d8 C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o
  *(.bss*)
  *(COMMON)
  COMMON         0x0080064c        0x4 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(malloc.o)
                 0x0080064c                __brkval
                 0x0080064e                __flp
                 0x00800650                PROVIDE (__bss_end, .)
-                0x00003ae4                __data_load_start = LOADADDR (.data)
-                0x00003b58                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00004012                __data_load_start = LOADADDR (.data)
+                0x00004086                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800650        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
@@ -1013,7 +1055,7 @@ END GROUP
 
 .comment        0x00000000       0x11
  *(.comment)
- .comment       0x00000000       0x11 C:\Users\FRREMARN\AppData\Local\Temp\ccFO3BQo.ltrans0.ltrans.o
+ .comment       0x00000000       0x11 C:\Users\FRREMARN\AppData\Local\Temp\ccTsazOM.ltrans0.ltrans.o
                                  0x12 (size before relaxing)
  .comment       0x00000011       0x12 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(malloc.o)
  .comment       0x00000011       0x12 c:/users/frremarn/.platformio/packages/toolchain-atmelavr/bin/../lib/gcc/avr/7.3.0/../../../../avr/lib/avr5\libc.a(realloc.o)
@@ -1144,5 +1186,5 @@ END GROUP
 
 .debug_macro
  *(.debug_macro)
-OUTPUT(.pio\build\nanoatmega328\firmware.elf elf32-avr)
+OUTPUT(.pio\build\batt_12v\firmware.elf elf32-avr)
 LOAD linker stubs

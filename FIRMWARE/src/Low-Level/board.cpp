@@ -64,6 +64,9 @@ static void _InitClocks(void)
 static void _InitGpio(void)
 {
     pinMode(GPIO_PIN_BUILTIN_LED, OUTPUT);
+
+    pinMode(A2, INPUT);
+
     pinMode(GPIO_PIN_RELAY_1 , OUTPUT);
     pinMode(GPIO_PIN_RELAY_2 , OUTPUT);
     pinMode(GPIO_PIN_RELAY_3 , OUTPUT);

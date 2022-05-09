@@ -53,7 +53,7 @@ static uint8_t zeroVoltageModuleCount = 0;
 //------------------------------------------------------------------------------------------------//
 void _RunRules(uint32_t *value, uint32_t *hysteresisvalue, bool emergencyStop, uint16_t mins)
 {
-    //Timer 1 and Timer 2
+    // Timer 1 and Timer 2
     sCtrl.rule_outcome[Timer1] = (mins >= value[Timer1] && mins <= hysteresisvalue[Timer1]);
     sCtrl.rule_outcome[Timer2] = (mins >= value[Timer2] && mins <= hysteresisvalue[Timer2]);
 
@@ -68,7 +68,7 @@ void _RunRules(uint32_t *value, uint32_t *hysteresisvalue, bool emergencyStop, u
         sCtrl.rule_outcome[Rule::ModuleUnderTemperatureExternal] = false;
         sCtrl.rule_outcome[Rule::BankOverVoltage] = false;
         sCtrl.rule_outcome[Rule::BankUnderVoltage] = false;
-        
+
         // Abort processing any more rules until controller is stable/running state
         return;
     }
@@ -206,7 +206,7 @@ void _ProcessCell(uint8_t bank, uint8_t cellNumber, CellModuleInfo *c)
     }
 
     sCtrl.packvoltage[bank] += c->voltagemV;
-    
+
     // If the voltage of the module is zero, we probably haven't requested it yet (which happens during power up)
     // so keep count so we don't accidentally trigger rules.
     if (c->voltagemV == 0)
@@ -292,10 +292,10 @@ void RULES_TaskInit(void)
     {
         sCtrl.previousRelayState[i] = RELAY_OFF;
     }
-    pinMode(GPIO_PIN_RELAY_1 , OUTPUT);
-    pinMode(GPIO_PIN_RELAY_2 , OUTPUT);
-    pinMode(GPIO_PIN_RELAY_3 , OUTPUT);
-    pinMode(GPIO_PIN_RELAY_4 , OUTPUT);
+    pinMode(GPIO_PIN_RELAY_1, OUTPUT);
+    pinMode(GPIO_PIN_RELAY_2, OUTPUT);
+    pinMode(GPIO_PIN_RELAY_3, OUTPUT);
+    pinMode(GPIO_PIN_RELAY_4, OUTPUT);
 
     _ms = millis();
 }
@@ -307,7 +307,7 @@ void RULES_TaskRun(void)
         _ms = millis();
         _ClearValues();
         uint8_t cellid = 0;
-        for (int8_t bank = 0; bank < settings.totalNumberOfBanks ; bank++)
+        for (int8_t bank = 0; bank < settings.totalNumberOfBanks; bank++)
         {
             for (int8_t i = 0; i < settings.totalNumberOfSeriesModules; i++)
             {
@@ -373,11 +373,22 @@ void RULES_TaskRun(void)
                     GPIO_WRITE(GPIO_PIN_RELAY_2, relay[n] == RELAY_ON ? true : false);
                     break;
                 case 2:
+                    if (relay[n] == RELAY_ON)
+                    {
+                        for ( int i = 0 ; i < 255 ; i++ ){
+                            analogWrite(GPIO_PIN_RELAY_3 , i);
+                            delay(10);
+                        }
+                    }
+                    else
+                    {
+                        analogWrite(GPIO_PIN_RELAY_3,0);
+                    }
                     GPIO_WRITE(GPIO_PIN_RELAY_3, relay[n] == RELAY_ON ? true : false);
                     break;
-               /* case 3:
-                    GPIO_WRITE(GPIO_PIN_RELAY_4, relay[n] == RELAY_ON ? true : false);
-                    break;*/
+                    /* case 3:
+                         GPIO_WRITE(GPIO_PIN_RELAY_4, relay[n] == RELAY_ON ? true : false);
+                         break;*/
                 default:
                     break;
                 }
@@ -385,7 +396,6 @@ void RULES_TaskRun(void)
                 sCtrl.previousRelayState[n] = relay[n];
             }
         }
-        
     }
 }
 
